@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- First Container -->
+    <div class='container bg-main'>
+        <h3 class='margin'><a href='hot-hub-time-machine'>Hot Hub Time Machine</a></h3>
+        <hr>
+        <p>
+            My Insight Data Science project for users of metro-Boston's bike-sharing system <a href='https://www.thehubway.com/how-it-works'>Hubway</a>. Users enter their origin and destination, and the page produces walking directions to the Hubway station closest to the origin, biking directions to the Hubway station closest to the destination, and walking directions to the destination. A prediction of the number of available bikes at the Hubway stations near the origin and destination is accessible by clicking map icons. This allows users to plan ahead if a starting station might have no available bikes, or if an ending station might be too full to accept additional bikes.
+        </p>
+        <br>
+        <h3 class='margin'><a href='the-making-of-hot-hub-time-machine'>The Making of Hot Hub Time Machine</a></h3>
+        <hr>
+        <p>
+            An outline of the data collection and manipulation process, modeling considerations, and the software engineering steps to arrive at the final product.
+        </p>
+        <br>
+        <h3 class='margin'><a href='scraping-data-from-basketball-reference'>Scraping Data from Basketball-Reference</a></h3>
+        <hr>
+        <p>
+            Scraping data from Basketball-Reference with <a href='https://www.crummy.com/software/BeautifulSoup/'>Beautiful Soup</a>.
+        </p>
+        <br>
+        <h3 class='margin'><a href='basketball-reference-hall-of-fame-probabilities'>Basketball-Reference Hall of Fame Probabilities</a></h3>
+        <hr>
+        <p>
+            A deep dive into how Basketball-Reference calculates its Hall of Fame probabilities.
+        </p>
+    </div>
+
+{% endblock %}

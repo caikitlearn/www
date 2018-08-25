@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- First Container -->
+    <div class="container bg-main">
+        <h3 class='margin'><a href='{{url_for('static',filename='files/tai_thesis.pdf')}}'>PhD Thesis</a></h3>
+        <hr>
+        <p>
+            My PhD thesis, as submitted to the Graduate School of Arts and Sciences at Harvard University.
+        </p>
+        <br>
+
+        <h3 class='margin'><a href='{{url_for('static',filename='files/bio249labs.pdf')}}'>Labs from BIO 249: Bayesian Methodology in Biostatistics</a></h3>
+        <hr>
+        <p>
+            Topics include: probability theory, Bayesian computation, Dirichlet processes, Pólya trees, decision theory, sequential analysis, and survival analysis.
+        </p>
+    </div>
+{% endblock %}

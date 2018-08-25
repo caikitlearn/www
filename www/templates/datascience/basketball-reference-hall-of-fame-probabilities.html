@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- First Container -->
+    <div class='container bg-main'>
+        <h3 class='margin'><a href='basketball-reference-hall-of-fame-probabilities'>Basketball-Reference Hall of Fame Probabilities</a></h3>
+        <hr>
+        <h2>Introduction</h2>
+        <p>
+            Basketball-Reference uses logistic regression to estimate a Hall of Fame (HoF) probability for players with 400 or more career games, displayed under the 'Appearances on Leaderboards, Awards, and Honors' section. These probabilities are occasionally the topic of discussion on <a href='https://www.reddit.com/r/nba/search?q=hall+of+fame+probability&sort=top&restrict_sr=on'>Reddit</a>. Some common criticisms of the methodology include not accounting for: olympic medals, college accolades, longevity, advanced stats, and various individual awards. Additionally, Basketball-Reference does not discuss their process for model selection and evaluation. I wanted to collect the same data they used, and replicate their calculations to see how much the results changed under different model specifications.
+        </p>
+        <h2>Basketball-Reference Model</h2>
+        <p>
+            The <a href='https://www.basketball-reference.com/about/hof_prob.html'>current model</a> assumes the probability of a given player entering the HoF is:
+            \[
+                \mathbb{P}\left(\left.\textrm{HoF}_{i}\right|h_{i},c_{i},l_{i},w_{i},a_{i}\right)=\textrm{expit}\left(\boldsymbol{\beta}^{\intercal}\begin{bmatrix}1\\
+                h_{i}\\
+                c_{i}\\
+                l_{i}\\
+                w_{i}\\
+                a_{i}
+                \end{bmatrix}\right)
+            \]
+            where
+            \[
+                \begin{align*}
+                \textrm{expit}\left(x\right) & =\frac{\exp\left(x\right)}{1+\exp\left(x\right)}\\
+                \hat{\boldsymbol{\beta}}^{\intercal} & =\begin{bmatrix}-0.20303 & -0.14203 & 0.80573 & 0.01594 & 0.41568 & 1.02443\end{bmatrix}
+                \end{align*}
+            \]
+            and
+        </p>
+        <ul>
+            <li>\(h_{i}\) is height in inches</li>
+            <li>\(c_{i}\) is number of NBA championships</li>
+            <li>\(l_{i}\) is number of NBA leaderboard points</li>
+            <ul>
+                <li>Players get 10 to 1 leaderboard points for ranking 1 to 10 for a season in any of the following categories: total minutes played, total points, total rebounds, total assists, total steals, or total blocks</li>
+            </ul>
+            <li>\(w_{i}\) is peak win shares (NBA seasons only)</li>
+            <li>\(a_{i}\) is number of NBA all-star games</li>
+        </ul>
+        <p>
+            Essentially, each player starts with a baseline
+            \[
+                \textrm{expit}\left(-0.20303\right)=0.449
+            \]
+            probability of making it to the HoF, and his chances go down for each inch of his height above 0, and go up as he increases his number of championships, leaderboard points, peak win shares, and all-star games. In this example, <a href='https://www.basketball-reference.com/players/t/thompkl01.html'>Klay Thompson</a>'s chance of making the HoF (as of the end of the 2017-2018 regular season) is
+            \[
+                \textrm{expit}\left(\hat{\boldsymbol{\beta}}^{\intercal}\begin{bmatrix}1\\
+                79\\
+                2\\
+                8\\
+                8.797083\\
+                4
+                \end{bmatrix}\right)=12.7\%
+            \]
+            where
+        </p>
+        <ul>
+            <li>79 is his height in inches</li>
+            <li>2 is his number of championships</li>
+            <li>8 is his number of leaderboard points</li>
+            <ul>
+                <li>Klay was 9th in total minutes played in 2014-2015 (2 points), 6th in total points in 2014-2015 (5 points), and 10th in total points in 2015-2016 (1 point)</li>
+            </ul>
+            <li>8.797083 is his peak win shares (from his 2014-2015 season)</li>
+            <ul>
+                <li>Basketball-Reference displays Klay's win shares for 2014-2015 as 8.8, but to get more precision, I computed win shares from total minutes played, and WS/48, which has more decimal places</li>
+            </ul>
+            <li>4 is his number of all-star games</li>
+        </ul>
+        <p>
+            This is about the same chance the model gives a footlong sub to make the HoF, which is
+            \[
+                \textrm{expit}\left(\hat{\boldsymbol{\beta}}^{\intercal}\begin{bmatrix}1\\
+                12\\
+                0\\
+                0\\
+                0\\
+                0
+                \end{bmatrix}\right)=12.9\%
+            \]
+        </p>
+        <h2>Data Collection</h2>
+        <p>
+            To replicate the Basketball-Reference analysis, I needed to collect the same data they used, which I scraped with <a href='https://www.crummy.com/software/BeautifulSoup/'>Beautiful Soup</a>. Luckily, because Basketball-Reference provides the coefficients from their logistic regression model, I was able to guess and check their inclusion/exclusion criteria by computing the fitted probabilities my data and their coefficients, and see how different ther results were. Players with big differences would point me to areas where my data differed from their data.
+        </p>
+        <p>
+            Through this iterative guess-and-check process, I was able to reproduce the exact data they used, within some margin of rounding error (due to win shares and WS/48 being rounded off), and some minor  However, they further subsetted this data according to an unspecified rule excluding ABA players. ('We excluded players that spent significant time in the ABA').
+        </p>
+        <h2>Alternative Models</h2>
+        <p>
+            I suspect that height is not actually that useful as a predictor, and that it is used to explain some variation of another predictor. More to come at a later date.
+        </p>
+        <div align='right'>
+            <p style='font-size:12px;'>
+                <i>Last Edited April 17, 2018</i>
+            </p>
+        </div>
+    </div>
+
+{% endblock %}

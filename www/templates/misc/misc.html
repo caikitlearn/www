@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container bg-main">
+    <h3 class='margin'><a href='/tractor'>Tractor</a></h3>
+    <hr>
+    <p>
+        A work in progress to create an online multiplayer platform for the card game <a href='https://en.wikipedia.org/wiki/Sheng_ji'>Tractor</a>.
+    </p>
+    <br>
+
+    <h3 class='margin'><a href='{{url_for('static',filename='files/fullscore.pdf')}}'>Disney Medley Arrangement</a></h3>
+    <hr>
+    <p>
+        Piano accompaniment for a Disney medley, arranged for <a href='https://americanrepertorytheater.org/events/show/i-night-harvard-t-h-chan-school-public-health'>Harvard I-Night 2016</a>. I served on the organizing committee in 2015 and 2016, and performed in 2014, 2015, and 2016.
+    </p>
+    <p>MIDI</p>
+    <audio controls>
+        <source src='{{url_for('static',filename='files/disneymedley.mp3')}}' type="audio/mpeg"></source>
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
+{% endblock %}
