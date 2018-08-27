@@ -1,36 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <div class='container bg-main'>
+    <h3 class='margin'>Tai Cai</h3>
+    <hr>
     <div class='row'>
         <div class='col-sm-8'>
-            <h3 class='margin'>Tai Cai</h3>
-            <hr>
             <p>
                 <!-- <img style="float: right; margin: 0px 0px 15px 15px; display:inline;" src="https://i.imgur.com/Yq4ugtq.jpg" width="300px" class='img-responsive img-circle margin'> -->
-                I am a Data Scientist at <a href='https://www.bitsighttech.com/jobs?gh_jid=1005898'>BitSight Technologies</a> in Cambridge, Massachusetts. Prior to that, I was an <a href='https://www.insightdatascience.com'>Insight Data Science</a> Fellow, while concurrently finishing my PhD in Biostatistics at <a href='https://gsas.harvard.edu/programs-of-study/all/biostatistics'>Harvard University</a>. I have a Bachelor of Mathematics from the <a href='https://uwaterloo.ca/math'>University of Waterloo</a>.
+                I am a Data Scientist at <a href='https://www.bitsighttech.com/engineering-data-science-careers'>BitSight Technologies</a> in Cambridge, Massachusetts. Prior to that, I was an <a href='https://www.insightdatascience.com'>Insight Data Science</a> Fellow, while concurrently finishing my PhD in Biostatistics at <a href='https://gsas.harvard.edu/programs-of-study/all/biostatistics'>Harvard University</a>. I have a Bachelor of Mathematics from the <a href='https://uwaterloo.ca/math'>University of Waterloo</a>.
                 <br><br>
-                This site contains various projects I enjoy working on during my spare time. Some of these are applied problems motivated by interesting data, while others are driven by curiosity about a particular concept in statistics or machine learning.
+                This site contains various projects I enjoy working on during my spare time. Some of these are applied problems motivated by interesting data, while others are driven by curiosity about a particular concept.
+                <br><br>
+                My areas of interest are dynamic. Currently, I enjoy reading about statistical properties of random forests, prediction intervals, and Python 3 tips. I love classical era romantic music, particularly Chopin and Liszt.
                 <br><br>
                 Thanks for visiting! Send me an email if you would like to talk.
             </p>
         </div>
         <div class='col-sm-4 text-center'>
-            <img src='https://i.imgur.com/Yq4ugtq.jpg' class='img-responsive img-circle margin' style='display:inline; margin-top: 25px; width: 30%; height: auto; min-width: 200px;'>
+            <img src='https://i.imgur.com/Yq4ugtq.jpg' class='img-responsive img-circle margin' style='display:inline; margin-top: 0; width: 50%; height: auto; min-width: 300px;'>
             <p style='font-size: 12px'>cutting cake after my PhD defense <br> August 29, 2017</p>
         </div>
     </div>
 </div>
 <br>
 <div class='container bg-main'>
-    <h3 class='margin'>My Resume & Contact Information</h3>
     <hr>
     <div class='row text-center'>
         <div class='col-sm-3'>
             <ul class='list-inline text-center'>
                 <li class='list-inline-item'>
-                    <a href='{{url_for('static',filename='files/tai_resume.pdf')}}'>
+                    <a href='https://github.com/padtai/resume/blob/master/tai_resume.pdf'>
                         <span class='fa-stack fa-lg'>
                             <i class='fa fa-circle fa-stack-2x'></i>
                             <i class='fa fa-list-alt fa-stack-1x'></i>
@@ -93,10 +93,8 @@
 <div class='container bg-main text-center'>
     <p style='font-size: 12px'>
         <i>
-        The contents of this page are hosted on <a href='https://aws.amazon.com/ec2'>Amazon EC2</a> via Python's <a href='https://www.fullstackpython.com/flask.html'>Flask</a>,
-        and styled with the help of <a href='https://getbootstrap.com'>Bootstrap</a>.
+        The contents of this page are hosted on Amazon EC2 with Flask, nginx, and Gunicorn. Extra care was taken to establish an HTTPS connection.
         </i>
     </p>
 </div>
-
 {% endblock %}

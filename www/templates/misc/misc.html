@@ -15,11 +15,12 @@
     <p>
         Piano accompaniment for a Disney medley, arranged for <a href='https://americanrepertorytheater.org/events/show/i-night-harvard-t-h-chan-school-public-health'>Harvard I-Night 2016</a>. I served on the organizing committee in 2015 and 2016, and performed in 2014, 2015, and 2016.
     </p>
-    <p>MIDI</p>
-    <audio controls>
-        <source src='{{url_for('static',filename='files/disneymedley.mp3')}}' type="audio/mpeg"></source>
-        Your browser does not support the audio element.
-    </audio>
+    <div style='margin: 0 auto; display: table'>
+        <audio controls>
+            <source src='{{url_for('static',filename='files/disneymedley.mp3')}}' type="audio/mpeg"></source>
+            Your browser does not support the audio element.
+        </audio>
+    </div>
 </div>
 
 {% endblock %}
