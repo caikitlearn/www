@@ -42,6 +42,10 @@ def basketball_reference_hall_of_fame_probabilities():
 def statistics():
     return render_template('statistics/statistics.html')
 
+@app.route('/stirlings-pogs')
+def pogs():
+    return render_template('statistics/stirlings-pogs.html')
+
 ##==================================================##
 ##   MISC                                           ##
 ##==================================================##

@@ -18,15 +18,15 @@
             'HTML-CSS':{
                 linebreaks:{automatic:true},
                 fonts:['Asana-Math'],
-                styles: {'.MathJax': {color: '#DCDCDC'}},
-                scale:90
+                styles:{'.MathJax':{color:'#DCDCDC'}},
+                scale: 100
             }
         });
     </script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
-    <link rel='shortcut icon' href='{{url_for('static',filename='files/favicon.ico')}}'>
+    <link rel='shortcut icon' href='{{url_for('static',filename='images/favicon.ico')}}'>
 
     {% block header %} {% endblock %}
 

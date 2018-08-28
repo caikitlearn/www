@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- First Container -->
+    <div class='container bg-main'>
+        <h3 class='margin'>Stirling's Pogs</h3>
+        <hr>
+        <h2>Why are we talking about pogs?</h2>
+        <p>
+            The other day I was feeling nostalgic for my Québécois childhood and, on a whim, bought 21 packs of Spawn pogs from eBay. Each pack contains 1 kini (slammer) and 7 pogs (milk caps). To play, people take turns using a kini to slam a stack of pogs, or a pile of kinis ('kini-kini', as the kids used to say), and claim the ones that land face-up. For this Spawn collection, there are a total of <a href='https://www.milkcapmania.co.uk/World-POG-Federation-WPF/Canada-Games/157-Spawn-Kinis.html'>8 unique kinis</a> and <a href='https://www.milkcapmania.co.uk/World-POG-Federation-WPF/Canada-Games/156-Spawn.html'>70 unique pogs</a> to collect.
+        <br>
+        <img src='{{url_for('static',filename='images/mtl.jpg')}}' class='img-responsive' style='display:block; margin-top: 25px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
+        <p style='font-size: 12px; margin-bottom: 25px' align='center'>simpler times</p>
+        <p>
+            What came next was a series of seemingly simple and innocuous questions: assuming each of the 8 unique kinis are equally likely to appear in a pack, what is the probability that I am able to collect all 8 from my 21 packs? How many packs would I need to buy to have a 90% chance of collecting all 8? What is the distribution of the number of unique kinis \(k\) that I get out of \(n\) packs? Over the course of my afternoon I because increasing obsessed with this problem.
+        </p>
+        <p>
+            To illustrate what I am going for, consider the case where I bought \(n=3\) packs and there were only \(k=2\) unique kinis \(\left(A,B\right)\) to collect. Then my possible yield from the 3 packs are (AAA,AAB,ABA,ABB,BAA,BAB,BBA,BBB). In this scenario, 75% of the time, I manage to collect both unique kinis.
+        </p>
+        <p>
+            Attempt 1 - Simulating
+            A simple approach is to simulate the process by sampling from 1:k, n times with replacement, and counting how often I get k unique numbers in my sample. This can be iterated many times to computer an estimated probability.
+
+            Attempt 2 -
+            The number of times I get each unique kini follows a multinomial distribution. We are essentially computing P[]
+
+            Attempt 3 - Exact Form
+            An
+
+            finding the answer to this question, and simultaneously frustrated that I could not solve what appeared to be a high school level combinatorics problem
+
+            Relatively innocuous question: what is the probability I get all 8 unique kinis from my 21 packs?
+
+
+            Option 1: enumerate all the possible combinations we can get, and count up how many options ...
+
+            Option 2: view as multinomial problem
+
+            Option 3: partition!
+            <a href='https://github.com/padtai/scraping-data-from-basketball-reference'>Source Code</a>
+        </p>
+{% endblock %}
