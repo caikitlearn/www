@@ -1,22 +1,67 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <!-- First Container -->
     <div class='container bg-main'>
         <h3 class='margin'>Stirling's Pogs</h3>
         <hr>
         <h2>Why are we talking about pogs?</h2>
         <p>
-            The other day I was feeling nostalgic for my Québécois childhood and, on a whim, bought 21 packs of Spawn pogs from eBay. Each pack contains 1 kini (slammer) and 7 pogs (milk caps). To play, people take turns using a kini to slam a stack of pogs, or a pile of kinis ('kini-kini', as the kids used to say), and claim the ones that land face-up. For this Spawn collection, there are a total of <a href='https://www.milkcapmania.co.uk/World-POG-Federation-WPF/Canada-Games/157-Spawn-Kinis.html'>8 unique kinis</a> and <a href='https://www.milkcapmania.co.uk/World-POG-Federation-WPF/Canada-Games/156-Spawn.html'>70 unique pogs</a> to collect.
+            The other day I was feeling nostalgic for my Québécois childhood and, on a whim, bought 21 packs of Spawn pogs from eBay. Each pack contains 1 kini (slammer) and 7 pogs (milk caps). To play, people take turns using a kini to slam a stack of pogs, or a pile of kinis ('kini-kini', as the kids used to say), and claim the ones that land face-up. For this Spawn collection, there are a total of <a href='https://www.milkcapmania.co.uk/World-POG-Federation-WPF/Canada-Games/157-Spawn-Kinis.html' target='_blank'>8 unique kinis</a> and <a href='https://www.milkcapmania.co.uk/World-POG-Federation-WPF/Canada-Games/156-Spawn.html' target='_blank'>70 unique pogs</a> to collect.
         <br>
         <img src='{{url_for('static',filename='images/mtl.jpg')}}' class='img-responsive' style='display:block; margin-top: 25px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
         <p style='font-size: 12px; margin-bottom: 25px' align='center'>simpler times</p>
+        <h2>What's the problem?</h2>
         <p>
-            What came next was a series of seemingly simple and innocuous questions: assuming each of the 8 unique kinis are equally likely to appear in a pack, what is the probability that I am able to collect all 8 from my 21 packs? How many packs would I need to buy to have a 90% chance of collecting all 8? What is the distribution of the number of unique kinis \(k\) that I get out of \(n\) packs? Over the course of my afternoon I because increasing obsessed with this problem.
+            What came next was a series of seemingly simple and innocuous questions: assuming each of the 8 unique kinis are equally likely to appear in a pack, what is the probability that I collect all 8 from my 21 packs? How many packs would I need to buy to have a 90% chance of collecting all 8? What is the distribution of the number of unique kinis <i>k</i> that I get out of a known number of packs <i>n</i>? Over the course of my afternoon I became increasing obsessed with these problems.
         </p>
+        <h2>Approximating the solution</h2>
+
+        <p>
+            A quick way to get an estimate for the desired probability is to simulate opening 21 packs by sampling 8 numbers with replacement 21 times:
+        </p>
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">np</span>
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">simulate_probability</span>(k,n,R):
+    <span style="color: #8B008B; font-weight: bold">return</span>(<span style="color: #658b00">sum</span>(<span style="color: #658b00">len</span>(<span style="color: #658b00">set</span>(np.random.choice(k,n)))==k <span style="color: #8B008B; font-weight: bold">for</span> r <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(R))/R)
+</pre></td></tr></table></div>
+
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%">&gt;&gt;&gt; np.random.seed(<span style="color: #B452CD">64</span>)
+&gt;&gt;&gt; simulate_probability(k=<span style="color: #B452CD">8</span>,n=<span style="color: #B452CD">21</span>,R=<span style="color: #B452CD">10000</span>)
+<span style="color: #B452CD">0.5729</span>
+</pre></td></tr></table></div>
+        <br>
+        <p>
+            Alternatively, we can view this setup as a multinomial distribution where we roll an 8-sided die 21 times, and want to know the probability that we get at least 1 success for each of the 8 sides, or
+        </p>
+
+        \[
+\mathbb{P}\left(X_{1}\geq1,\dots,X_{k}\geq k\right)\textrm{ for }\left(X_{1},\dots,X_{k}\right)\sim\textrm{Multinomial}\left(n,p_{i}=\frac{1}{k}\textrm{ for }i\in\left\{ 1,\dots,k\right\} \right)
+\]
+
+
+        <h2>Counting the possibilities</h2>
+        <p>
+            Under the assumptions, there are a total of 8<sup>21</sup> equally likely possibilities. Solving this problem boils down to counting the number of possibilities that contain all 8 unique kinis, which turned out to be quite difficult to do by hand. Of course, this is quite easy with a computer, but takes a while to run:
+        </p>
+
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">itertools</span>
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">brute_probability</span>(k,n):
+    <span style="color: #8B008B; font-weight: bold">return</span>(<span style="color: #658b00">sum</span>(<span style="color: #658b00">len</span>(<span style="color: #658b00">set</span>(p))==k <span style="color: #8B008B; font-weight: bold">for</span> p <span style="color: #8B008B">in</span> itertools.product(<span style="color: #658b00">range</span>(k),repeat=n))/k**n)
+</pre></td></tr></table></div>
+
+
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #658b00">print</span>(brute_probability(k=<span style="color: #B452CD">3</span>,n=<span style="color: #B452CD">6</span>))
+<span style="color: #B452CD">0.7407407407407407</span>
+</pre></td></tr></table></div>
+
+
+        <h2>Approach 2: Simulations</h2>
         <p>
             To illustrate what I am going for, consider the case where I bought \(n=3\) packs and there were only \(k=2\) unique kinis \(\left(A,B\right)\) to collect. Then my possible yield from the 3 packs are (AAA,AAB,ABA,ABB,BAA,BAB,BBA,BBB). In this scenario, 75% of the time, I manage to collect both unique kinis.
         </p>
+
+        <h2>Approach 3: Mathematics</h2>
         <p>
             Attempt 1 - Simulating
             A simple approach is to simulate the process by sampling from 1:k, n times with replacement, and counting how often I get k unique numbers in my sample. This can be iterated many times to computer an estimated probability.
