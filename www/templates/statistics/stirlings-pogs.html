@@ -42,13 +42,13 @@
         <br>
 
         <p>
-            More explicitly, we can view this setup as a multinomial distribution where we roll an 8-sided die 21 times, and want to know the probability that we get at least 1 success for each of the 8 sides, or
+            Equivalently, we can view this setup as a multinomial distribution where we roll an 8-sided die 21 times, and want to know the probability that we get at least 1 success for each of the 8 sides, or
         </p>
         \[
             \mathbb{P}\left(X_{1}\geq1,\dots,X_{k}\geq 1\right)\textrm{ for }\left(X_{1},\dots,X_{k}\right)\sim\textrm{Multinomial}\left(n,p_{i}=\frac{1}{k}\textrm{ for }i\in\left\{ 1,\dots,k\right\} \right)
         \]
         <p>
-            This exact probability is difficult to determine (more on that later). For large values of <i>k</i><sup><i>n</i></sup>, even a computer would take a long time adding up all the individual tuples satisfying the inequalities. We can once again simulate this to get our desired probability:
+            This exact probability is difficult to determine (more on that later). The arrangement of 8 kinds of kinis over 21 packs is neither a permutation nor a combination, but rather a cartesian product with 8<sup>21</sup> equally likely possibilities, where each possibility can be represented as a 21-tuple. For large values of <i>k</i><sup><i>n</i></sup>, even a computer would take a long time adding up all the individual tuples satisfying our desired outcome (at least 1 of each kind of kini). We can instead simulate draws of the multinomial distribution to estimate our desired probability:
         </p>
 
         <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">simulate_multinomial_probability</span>(k,n,R=<span style="color: #B452CD">10000</span>,seed=<span style="color: #B452CD">64</span>):
@@ -62,7 +62,7 @@
         <br>
 
         <p>
-            There are some interesting papers on approximating the multinomial distribution (Johnson, 1960; Deheuvels & Pfeifer, 1988), but these will not be the focus for this post.
+            There are some interesting papers on approximating the multinomial distribution (Johnson, 1960; Deheuvels & Pfeifer, 1988), but these will not be the focus of this post.
         </p>
 
         <!----------------------->
@@ -70,7 +70,7 @@
         <!----------------------->
         <h2>An exact solution</h2>
         <p>
-            Under the assumptions, there are a total of 8<sup>21</sup> or 9,223,372,036,854,775,808 equally likely possibilities. Solving this problem boils down to counting the number of possibilities that contain all 8 unique kinis, which turned out to be quite difficult to do (more on that later). Of course, this is quite easy to brute force with a computer, but is not feasible for large values of <i>k</i><sup><i>n</i></sup> such as this case. We can still check the accuracy of our approximations for smaller values of <i>k</i><sup><i>n</i></sup>:
+            Under the assumptions, there are a total of 8<sup>21</sup> or 9,223,372,036,854,775,808 equally likely possibilities. Solving this problem boils down to counting the number of possibilities that contain all 8 unique kinis, which turned out to be quite difficult to do (more on that later). Of course, this is quite easy to brute force with a computer, but is not feasible for large values of <i>k</i><sup><i>n</i></sup> such as this case. We can still use the brute force method to check the accuracy of our approximations for smaller values of <i>k</i><sup><i>n</i></sup>:
         </p>
 
         <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">brute_probability</span>(k,n):
@@ -102,29 +102,21 @@
                 Step 1: try to subtract tuples where we collect at most 3 of the 4 unique kinis.
             </li>
             <p>
-                For each of the 6 packs, we have 3 choices of kinis (out of 4), for a total of 3<sup>6</sup> tuples. Considering the choice of the 3 kinis we collect, there are a total of
-                \[
-                    {4 \choose 3}3^{6}
-                \]
-                tuples to subtract. However, the answer isn't just
+                For each of the 6 packs, we have 3 choices of kinis (out of 4), for a total of 3<sup>6</sup> tuples. Considering the choice of the 3 kinis we collect, there are a total of \({4 \choose 3}3^{6}\) tuples to subtract. However, the answer isn't just
                 \[
                     4^{6}-{4 \choose 3}3^{6}
                 \]
-                because that double counts many tuples. For example, the tuple AAAAAA is subtracted once when the 3 chosen kinis are ABC, and again when the 3 chosen kinis are ABD, and again when the 3 chosen kinis are ACD. Similarly, the tuple ABABAB is subtracted once when the 3 chosen kinis are ABC, and again when the 3 chosen kinis are ABD. The only tuples that are not double counted (and thus correctly subtracted once) are those that contain <i>exactly</i> 3 of the 4 unique kinis.
+                because that double counts some tuples. For example, the tuple AAAAAA is subtracted once when the 3 chosen kinis are ABC, and again when the 3 chosen kinis are ABD, and again when the 3 chosen kinis are ACD. Similarly, the tuple ABABAB is subtracted once when the 3 chosen kinis are ABC, and again when the 3 chosen kinis are ABD. The only tuples that are not double counted (and thus correctly subtracted once) are those that contain <i>exactly</i> 3 of the 4 unique kinis.
             </p>
             <li>
                 Step 2: try to add back duplicate tuples where we collect at most 2 of the 4 unique kinis.
             </li>
             <p>
-                For each of the 6 packs, we have 2 choices of kinis (out of 4), for a total of 2<sup>6</sup> tuples. Considering the choice of the 2 kinis we collect, there are a total of
-                \[
-                    {4 \choose 2}2^{6}
-                \]
-                tuples. However, the answer isn't just
+                For each of the 6 packs, we have 2 choices of kinis (out of 4), for a total of 2<sup>6</sup> tuples. Considering the choice of the 2 kinis we collect, there are a total of \({4 \choose 2}2^{6}\) tuples. However, the answer isn't just
                 \[
                     4^{6}-{4 \choose 3}3^{6}+{4 \choose 2}2^{6}
                 \]
-                because we have once again double counted many tuples. For example, the tuple AAAAAA is added back when the choice of the 2 kinis are AB, and again when the choice of the 2 kinis are AC, and again when the choice of the 2 kinis are AD. The net effect is that we have not subtracted 6-of-a-kind tuples like AAAAAA at all. These are tuples that were subtracted  This time, the only tuples that are not double counted (and thus correctly added back once) are those that contain <i>exactly</i> 2 of the 4 unique kinis.
+                because we have once again double counted some tuples. For example, the tuple AAAAAA is added back when the choice of the 2 kinis are AB, and again when the choice of the 2 kinis are AC, and again when the choice of the 2 kinis are AD. The net effect is that we have not subtracted 6-of-a-kind tuples like AAAAAA at all. This time, the only tuples that are not double counted (and thus correctly added back once) are those that contain <i>exactly</i> 2 of the 4 unique kinis.
             </p>
             <li>
                 Step 3: try to subtract duplicate tuples where we collect exactly 1 of the 4 unique kinis.
@@ -164,8 +156,12 @@
         \[
             \frac{5,342,844,138,794,426,880}{9,223,372,036,854,775,808}\doteq0.579
         \]
-        This is pretty close to the simulated probabilities shown earlier.
+        This is pretty close to the simulated probabilities shown earlier. To answer my other question, I would have needed 33 packs to ensure a 90% chance of collecting all 8 kinds of kinis:
         </p>
+
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%">&gt;&gt;&gt; stirling(k=<span style="color: #B452CD">8</span>,n=<span style="color: #B452CD">33</span>)/<span style="color: #B452CD">8</span>**<span style="color: #B452CD">33</span>
+<span style="color: #B452CD">0.90452</span>
+</pre></td></tr></table></div>
 
         <!---------------------->
         <!-- WHO IS STIRLING? -->
@@ -174,9 +170,9 @@
         <p>
             As it turns out, these numbers have a special name, called <a href='http://mathworld.wolfram.com/StirlingNumberoftheSecondKind.html' target = '_blank'>Stirling Numbers of the Second Kind</a>, which is the number of ways to partition <i>n</i> elements into <i>k</i> non-empty sets, defined as
             \[
-                S\left(n,k\right)=\frac{1}{k!}\sum_{j=0}^{k}\left(-1\right)^{k-j}{k \choose j}j^{n}=\frac{1}{k!}\sum_{j=0}^{k}\left(-1\right)^{k-j}{k \choose j}\left(k-j\right)^{n}
+                S\left(n,k\right)=\frac{1}{k!}\sum_{j=0}^{k}\left(-1\right)^{k-j}{k \choose j}j^{n}=\frac{1}{k!}\sum_{j=0}^{k}\left(-1\right)^{j}{k \choose j}\left(k-j\right)^{n}
             \]
-            The numbers are named after James Stirling, a mathematician from the 18th century. In our example, we did not divide by the factorial term because our denominator is <i>k</i><sup><i>n</i></sup>, where the ordering matters.
+            The numbers are named after James Stirling, a mathematician from the 18th century. The above formula is different from the one we derived by a factorial term, since we do not care about ordering when we partition numbers into sets. In our example we want to preserve the order because we are considering all <i>k</i><sup><i>n</i></sup> possibilities equally likely.
         </p>
 
         <!---------------------->
@@ -184,7 +180,7 @@
         <!---------------------->
         <h2>So how did I do?</h2>
         <p>
-            I ended up with only 7 of the 8 types of kinis. Was I unlucky?
+            I ended up with only 7 of the 8 types of kinis. Was I unlucky? An exact test ...
         </p>
 
 {% endblock %}
