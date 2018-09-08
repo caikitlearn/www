@@ -47,7 +47,7 @@
             \mathbb{P}\left(X_{1}\geq1,\dots,X_{8}\geq 1\right)\textrm{ for }\left(X_{1},\dots,X_{8}\right)\sim\textrm{Multinomial}\left(n,p_{j}=\frac{1}{8}\textrm{ for }j\in\left\{ 1,\dots,8\right\} \right)
         \]
         <p>
-            This exact probability is difficult to determine (more on that later). The arrangement of 8 kinds of kinis over 21 packs is neither a permutation nor a combination, but rather a cartesian product with 8<sup>21</sup> equally likely possibilities, where each possibility can be represented as a 21-tuple. For large values of <i>k</i><sup><i>n</i></sup>, even a computer would take a long time adding up all the individual tuples satisfying our desired outcome (at least 1 of each kind of kini). We can instead simulate draws of the multinomial distribution to estimate our desired probability:
+            This exact probability is difficult to determine by hand. The arrangement of 8 kinds of kinis over 21 packs is neither a permutation nor a combination, but rather a cartesian product with 8<sup>21</sup> equally likely possibilities, where each possibility can be represented as a 21-tuple. For large values of <i>k</i><sup><i>n</i></sup>, even a computer would take a long time adding up all the individual tuples satisfying our desired outcome (at least 1 of each kind of kini). We can instead simulate draws of the multinomial distribution to estimate our desired probability:
         </p>
 
         <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">simulate_multinomial_probability</span>(k,n,R=<span style="color: #B452CD">10000</span>,seed=<span style="color: #B452CD">64</span>):
@@ -68,7 +68,7 @@
         <!----------------------->
         <h2>An exact solution</h2>
         <p>
-            Under the assumptions, there are a total of 8<sup>21</sup> or 9,223,372,036,854,775,808 equally likely possibilities. Solving this problem boils down to counting the number of possibilities that contain all 8 unique kinis, which turned out to be quite difficult to do (more on that later). Of course, this is quite easy to brute force with a computer, but is not feasible for large values of <i>k</i><sup><i>n</i></sup> such as this case. We can still use the brute force method to check the accuracy of our approximations for smaller values of <i>k</i><sup><i>n</i></sup>:
+            Under the assumptions, there are a total of 8<sup>21</sup> or 9,223,372,036,854,775,808 equally likely possibilities. Solving this problem boils down to counting the number of possibilities that contain all 8 unique kinis, which turned out to be quite difficult to do. Of course, this is quite easy to brute force with a computer, but is not feasible for large values of <i>k</i><sup><i>n</i></sup> such as this case. We can still use the brute force method to check the accuracy of our approximations for smaller values of <i>k</i><sup><i>n</i></sup>:
         </p>
 
         <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">brute_probability</span>(k,n):
@@ -168,7 +168,7 @@
         <!---------------------->
         <h2>Who is Stirling?</h2>
         <p>
-            As it turns out, these numbers have a special name, called <a href='http://mathworld.wolfram.com/StirlingNumberoftheSecondKind.html' target = '_blank'>Stirling Numbers of the Second Kind</a>, which is the number of ways to partition <i>n</i> elements into <i>k</i> non-empty sets, defined as
+            As it turns out, these numbers have a special name, called <a href='http://mathworld.wolfram.com/StirlingNumberoftheSecondKind.html' target='_blank'>Stirling Numbers of the Second Kind</a>, which is the number of ways to partition <i>n</i> elements into <i>k</i> non-empty sets, defined as
             \[
                 S\left(n,k\right)=\frac{1}{k!}\sum_{j=0}^{k}\left(-1\right)^{k-j}{k \choose j}j^{n}=\frac{1}{k!}\sum_{j=0}^{k}\left(-1\right)^{j}{k \choose j}\left(k-j\right)^{n}
             \]
@@ -196,7 +196,7 @@
             So I was mildly unlucky and missed out on the 4th kini (see below). An exact test would show insufficient evidence to reject the null hypothesis that the 8 kinis are equally likely to appear in a pack.
 
             <img src='{{url_for('static',filename='images/kinis.jpg')}}' class='img-responsive' style='display:block; margin-top: 25px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
-            <p style='font-size: 12px; margin-bottom: 25px' align='center'>there are different colors and patterns for each kini ... this changes everything</p>
+            <p style='font-size: 12px; margin-bottom: 25px' align='center'>there are different colours and colour patterns for each kini ... this changes everything</p>
         </p>
 
         <!-------------------->
@@ -207,5 +207,8 @@
             Much to the dismay of my fiancée, I ended up buying an extensive collection of the Spawn kinis and pogs from someone else on eBay to (mostly) complete the collection, as it was essentially the same price as buying 10 more individual packs. This whole experience was a great nostalgia fix for me, in more ways than one. While Stirling's numbers of the second kind might be an easy concept taught in undergraduate combinatorics courses, they reminded me of the good old days of high school math contest problems, and I was genuinely happy and excited to be talking about this novel (to me) mathematics problem. Tying in together some simple probability and statistics was just gravy. Special thanks again to Caleb for putting off his revisions to discuss the problem with me, finding out the link to Stirling, and encouraging this blog post.
         </p>
 
+        <p>
+            The source code for this post can be found <a href='https://github.com/padtai/stirlings-pogs/blob/master/stirlings-pogs.ipynb' target='_blank'>here</a>
+        </p>
 
 {% endblock %}
