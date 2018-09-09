@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class='container bg-main'>
-        <h3 class='margin'>Stirling's Pogs</h3>
+        <h3 class='margin'><a href='stirlings-pogs'>Stirling's Pogs</a></h3>
         <hr>
 
         <!----------------------------------->
@@ -68,7 +68,7 @@
         <!----------------------->
         <h2>An exact solution</h2>
         <p>
-            Under the assumptions, there are a total of 8<sup>21</sup> or 9,223,372,036,854,775,808 equally likely possibilities. Solving this problem boils down to counting the number of possibilities that contain all 8 unique kinis, which turned out to be quite difficult to do. Of course, this is quite easy to brute force with a computer, but is not feasible for large values of <i>k</i><sup><i>n</i></sup> such as this case. We can still use the brute force method to check the accuracy of our approximations for smaller values of <i>k</i><sup><i>n</i></sup>:
+            Under the assumptions, there are a total of 8<sup>21</sup> or 9,223,372,036,854,775,808 equally likely possibilities. Solving this problem boils down to counting the number of possibilities that contain all 8 unique kinis, which turned out to be quite difficult to do. Of course, this is quite easy to brute force with a computer, but would run at O(<i>k</i><sup><i>n</i></sup>), which is far too slow. We can still use the brute force method to check the accuracy of our approximations for smaller values of <i>k</i><sup><i>n</i></sup>:
         </p>
 
         <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">brute_probability</span>(k,n):
