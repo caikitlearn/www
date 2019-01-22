@@ -5,37 +5,40 @@
         <h3 class='margin'><a href='stirlings-pogs'>Stirling's Pogs</a></h3>
         <hr>
 
-        <!----------------------------------->
-        <!-- WHY ARE WE TALKING ABOUT POGS -->
-        <!----------------------------------->
+        <!--==================================================-->
+        <!--   WHY ARE WE TALKING ABOUT POGS                  -->
+        <!--==================================================-->
         <h2>Why are we talking about pogs?</h2>
         <p>
             The other day I was feeling nostalgic for my Québécois childhood and, on a whim, bought 21 packs of Spawn pogs from eBay. Each pack contains 1 kini (slammer) and 7 pogs (milk caps). To play, people take turns using a kini to slam a stack of pogs, or a stack of kinis ('kini-kini', as the kids used to say), and claim the ones that flip over. For this Spawn collection, there are a total of <a href='https://www.milkcapmania.co.uk/World-POG-Federation-WPF/Canada-Games/157-Spawn-Kinis.html' target='_blank'>8 unique kinis</a> and <a href='https://www.milkcapmania.co.uk/World-POG-Federation-WPF/Canada-Games/156-Spawn.html' target='_blank'>70 unique pogs</a> to collect.
         </p>
 
-        <img src='{{url_for('static',filename='images/mtl.jpg')}}' class='img-responsive' style='display: block; margin-top: 25px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
+        <img src='{{url_for('static',filename='images/mtl.jpg')}}' class='img-responsive' style='display: block; margin-top: 25px; margin-bottom: 10px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
         <p style='font-size: 12px; margin-bottom: 25px' align='center'>simpler times</p>
 
-        <!------------------------->
-        <!-- WHAT'S THE PROBLEM? -->
-        <!------------------------->
+        <!--==================================================-->
+        <!--   WHAT'S THE PROBLEM?                            -->
+        <!--==================================================-->
         <h2>What's the problem?</h2>
         <p>
             Other than embarrassment, what came next was a series of seemingly simple and innocuous questions: assuming each kind of kini is equally likely to appear in a pack, what is the probability that I collect all 8 unique kinis from my 21 packs? How many packs would I need to buy to have a 90% chance of collecting all 8 unique kinis? What is the distribution of the number of unique kinis <i>K</i> (out of 8) that I get out of a known number of packs <i>n</i>? Over the course of my afternoon I became increasing obsessed with these problems.
         </p>
 
-        <!-------------------------------->
-        <!-- APPROXIMATING THE SOLUTION -->
-        <!-------------------------------->
+        <!--==================================================-->
+        <!--   APPROXIMATING THE SOLUTION                     -->
+        <!--==================================================-->
         <h2>Approximating the solution</h2>
         <p>
-            A quick way to get an estimate for the desired probability is to simulate the opening of 21 packs by sampling the numbers from 0 to 7  with replacement 21 times:
+            A quick way to get an estimate for the desired probability is to simulate the opening of 21 packs by sampling 8 numbers with replacement 21 times:
         </p>
 
-        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">simulate_probability</span>(k,n,R=<span style="color: #B452CD">10000</span>,seed=<span style="color: #B452CD">64</span>):
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45">np</span>
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">simulate_probability</span>(k,n,R=<span style="color: #B452CD">10000</span>,seed=<span style="color: #B452CD">64</span>):
     np.random.seed(seed)
     <span style="color: #8B008B; font-weight: bold">return</span>(<span style="color: #658b00">sum</span>(<span style="color: #658b00">len</span>(<span style="color: #658b00">set</span>(np.random.choice(k,n)))==k <span style="color: #8B008B; font-weight: bold">for</span> r <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(R))/R)
 </pre></td></tr></table></div>
+
         <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%; margin-bottom: 0.8em">&gt;&gt;&gt; <span style="color: #658b00">print</span>(<span style="color: #CD5555">&#39;{0:.3f}&#39;</span>.format(simulate_probability(k=<span style="color: #B452CD">8</span>,n=<span style="color: #B452CD">21</span>)))
 <span style="color: #B452CD">0.573</span>
 </pre></td></tr></table></div>
@@ -44,7 +47,7 @@
             Equivalently, we can view this setup as a multinomial distribution where we roll an 8-sided die 21 times, and want to know the probability that we get at least 1 success for each of the 8 sides, or
         </p>
         \[
-            \mathbb{P}\left(X_{1}\geq1,\dots,X_{8}\geq 1\right)\textrm{ for }\left(X_{1},\dots,X_{8}\right)\sim\textrm{Multinomial}\left(n,p_{j}=\frac{1}{8}\textrm{ for }j\in\left\{ 1,\dots,8\right\} \right)
+            \mathbb{P}\left(X_{1}\geq1,\dots,X_{8}\geq 1\right)\textrm{ for }\left(X_{1},\dots,X_{8}\right)\sim\textrm{Multinomial}\left(n=21,p_{j}=\frac{1}{8}\textrm{ for }j\in\left\{ 1,\dots,8\right\} \right)
         \]
         <p>
             This exact probability is difficult to determine by hand. The arrangement of 8 kinds of kinis over 21 packs is neither a permutation nor a combination, but rather a cartesian product with 8<sup>21</sup> equally likely possibilities, where each possibility can be represented as a 21-tuple. For large values of <i>k</i><sup><i>n</i></sup>, even a computer would take a long time adding up all the individual tuples satisfying our desired outcome (at least 1 of each kind of kini). We can instead simulate draws of the multinomial distribution to estimate our desired probability:
@@ -63,17 +66,20 @@
             There are some interesting papers on approximating the multinomial distribution (Johnson, 1960; Deheuvels & Pfeifer, 1988), but these will not be the focus of this post.
         </p>
 
-        <!----------------------->
-        <!-- AN EXACT SOLUTION -->
-        <!----------------------->
+        <!--==================================================-->
+        <!--   AN EXACT SOLUTION                              -->
+        <!--==================================================-->
         <h2>An exact solution</h2>
         <p>
             Under the assumptions, there are a total of 8<sup>21</sup> or 9,223,372,036,854,775,808 equally likely possibilities. Solving this problem boils down to counting the number of possibilities that contain all 8 unique kinis, which turned out to be quite difficult to do. Of course, this is quite easy to brute force with a computer, but would run at O(<i>k</i><sup><i>n</i></sup>), which is far too slow. We can still use the brute force method to check the accuracy of our approximations for smaller values of <i>k</i><sup><i>n</i></sup>:
         </p>
 
-        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">brute_probability</span>(k,n):
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45">itertools</span>
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">brute_probability</span>(k,n):
     <span style="color: #8B008B; font-weight: bold">return</span>(<span style="color: #658b00">sum</span>(<span style="color: #658b00">len</span>(<span style="color: #658b00">set</span>(p))==k <span style="color: #8B008B; font-weight: bold">for</span> p <span style="color: #8B008B">in</span> itertools.product(<span style="color: #658b00">range</span>(k),repeat=n))/k**n)
 </pre></td></tr></table></div>
+
         <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%">&gt;&gt;&gt; <span style="color: #658b00">print</span>(brute_probability(k=<span style="color: #B452CD">4</span>,n=<span style="color: #B452CD">6</span>))
 <span style="color: #B452CD">0.380859375</span>
 </pre></td></tr></table></div>
@@ -88,9 +94,9 @@
             Fortunately, the approximations are very close to the real value.
         </p>
 
-        <!----------------------------->
-        <!-- A FASTER EXACT SOLUTION -->
-        <!----------------------------->
+        <!--==================================================-->
+        <!--   A FASTER EXACT SOLUTION                        -->
+        <!--==================================================-->
         <h2>A faster exact solution</h2>
         <p>
             Intuitively, the brute force method is inefficient because it considers every single possible 21-tuple. We can be smart about counting these tuples to come up with a faster solution; this is the part that required some creative thinking. After discussing the problem with my friend <a href='https://calebhmiles.github.io/' target='_blank'>Caleb</a>, we arrived at a concise solution.
@@ -99,35 +105,37 @@
             For brevity, consider a simpler case with 4 unique kinis (labeled ABCD for convenience), and 6 packs to open. To begin, start with the 4<sup>6</sup> (4096) total tuples, and subtract away the ones where we do not collect all 4 kinds of kinis.
         </p>
         <ul>
-            <li>
-                Step 1: try to subtract tuples where we collect at most 3 of the 4 unique kinis.
-            </li>
             <p>
-                For each of the 6 packs, we have 3 choices of kinis (out of 4), for a total of 3<sup>6</sup> tuples. Considering the choice of the 3 kinis we collect, there are a total of \({4 \choose 3}3^{6}\) tuples to subtract. However, the answer isn't just
-                \[
-                    4^{6}-{4 \choose 3}3^{6}
-                \]
-                because that double counts some tuples. For example, the tuple AAAAAA is subtracted once when the 3 chosen kinis are ABC, and again when the 3 chosen kinis are ABD, and again when the 3 chosen kinis are ACD. Similarly, the tuple ABABAB is subtracted once when the 3 chosen kinis are ABC, and again when the 3 chosen kinis are ABD. The only tuples that are not double counted (and thus correctly subtracted once) are those that contain <i>exactly</i> 3 of the 4 unique kinis.
+                <li>
+                    <p>
+                        Step 1: try to subtract tuples where we collect at most 3 of the 4 unique kinis.
+                    </p>
+                    <p>
+                        For each of the 6 packs, we have 3 choices of kinis (out of 4), for a total of 3<sup>6</sup> tuples. Considering the choice of the 3 kinis we collect, there are a total of \({4 \choose 3}3^{6}\) tuples to subtract. However, the answer isn't just \(4^{6}-{4 \choose 3}3^{6}\) because that double counts some tuples. For example, the tuple AAAAAA is subtracted once when the 3 chosen kinis are ABC, and again when the 3 chosen kinis are ABD, and again when the 3 chosen kinis are ACD. Similarly, the tuple ABABAB is subtracted once when the 3 chosen kinis are ABC, and again when the 3 chosen kinis are ABD. The only tuples that are not double counted (and thus correctly subtracted once) are those that contain <i>exactly</i> 3 of the 4 unique
+                        kinis.
+                    </p>
+                </li>
             </p>
-            <li>
-                Step 2: try to add back duplicate tuples where we collect at most 2 of the 4 unique kinis.
-            </li>
             <p>
-                For each of the 6 packs, we have 2 choices of kinis (out of 4), for a total of 2<sup>6</sup> tuples. Considering the choice of the 2 kinis we collect, there are a total of \({4 \choose 2}2^{6}\) tuples. However, the answer isn't just
-                \[
-                    4^{6}-{4 \choose 3}3^{6}+{4 \choose 2}2^{6}
-                \]
-                because we have once again double counted some tuples. For example, the tuple AAAAAA is added back when the choice of the 2 kinis are AB, and again when the choice of the 2 kinis are AC, and again when the choice of the 2 kinis are AD. The net effect is that we have not subtracted 6-of-a-kind tuples like AAAAAA at all. This time, the only tuples that are not double counted (and thus correctly added back once) are those that contain <i>exactly</i> 2 of the 4 unique kinis.
+                <li>
+                    <p>
+                        Step 2: try to add back duplicate tuples where we collect at most 2 of the 4 unique kinis.
+                    </p>
+                    <p>
+                        For each of the 6 packs, we have 2 choices of kinis (out of 4), for a total of 2<sup>6</sup> tuples. Considering the choice of the 2 kinis we collect, there are a total of \({4 \choose 2}2^{6}\) tuples. However, the answer isn't just \(4^{6}-{4 \choose 3}3^{6}+{4 \choose 2}2^{6}\) because we have once again double counted some tuples. For example, the tuple AAAAAA is added back when the choice of the 2 kinis are AB, and again when the choice of the 2 kinis are AC, and again when the choice of the 2 kinis are AD. The net effect is that we have not subtracted 6-of-a-kind tuples like AAAAAA at all. This time, the only tuples that are not double counted (and thus correctly added back once) are those that contain <i>exactly</i> 2 of the 4 unique kinis.
+                    </p>
+                </li>
             </p>
-            <li>
-                Step 3: try to subtract duplicate tuples where we collect exactly 1 of the 4 unique kinis.
-            </li>
             <p>
-                Here we only have 4 tuples to subtract: AAAAAA, BBBBBB, CCCCCC, and DDDDDD. These are tuples that were subtracted in Step 1 and re-added in Step 2, and thus still need to be subtracted from the total. The final answer is
-                \[
-                    4^{6}-{4 \choose 3}3^{6}+{4 \choose 2}2^{6}-4=1560
-                \]
-                tuples where we collect all 4 unique kinis (out of 4096 possibilities). This ratio is 0.380859375, as verified by the brute force solution.
+                <li>
+                    <p>
+                        Step 3: try to subtract duplicate tuples where we collect exactly 1 of the 4 unique kinis.
+                    </p>
+                    <p>
+                        Here we only have 4 tuples to subtract: AAAAAA, BBBBBB, CCCCCC, and DDDDDD. These are tuples that were subtracted in Step 1 and re-added in Step 2, and thus still need to be subtracted from the total. The final answer is \(4^{6}-{4 \choose 3}3^{6}+{4 \choose 2}2^{6}-4=1560\)
+                        tuples where we collect all 4 unique kinis (out of 4096 possibilities). This ratio is 0.380859375, as verified by the brute force solution.
+                    </p>
+                </li>
             </p>
         </ul>
 
@@ -138,8 +146,10 @@
             \]
             This is much faster to run than the brute force method:
         </p>
-        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">stirling</span>(k,n):
-<span style="color: #8B008B; font-weight: bold">return</span>(<span style="color: #658b00">sum</span>((-<span style="color: #B452CD">1</span>)**(k-j)*comb(k,j,exact=<span style="color: #8B008B; font-weight: bold">True</span>)*(j**n) <span style="color: #8B008B; font-weight: bold">for</span> j <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(k+<span style="color: #B452CD">1</span>)))
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">scipy.special</span> <span style="color: #8B008B; font-weight: bold">import</span> comb
+
+<span style="color: #8B008B; font-weight: bold">def</span> <span style="color: #008b45">stirling</span>(k,n):
+    <span style="color: #8B008B; font-weight: bold">return</span>(<span style="color: #658b00">sum</span>((-<span style="color: #B452CD">1</span>)**(k-j)*comb(k,j,exact=<span style="color: #658b00">True</span>)*(j**n) <span style="color: #8B008B; font-weight: bold">for</span> j <span style="color: #8B008B">in</span> <span style="color: #658b00">range</span>(k+<span style="color: #B452CD">1</span>)))
 </pre></td></tr></table></div>
         <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%">&gt;&gt;&gt; stirling(k=<span style="color: #B452CD">4</span>,n=<span style="color: #B452CD">6</span>)
 <span style="color: #B452CD">1560</span>
@@ -163,9 +173,9 @@
 <span style="color: #B452CD">0.904520364249363</span>
 </pre></td></tr></table></div>
 
-        <!---------------------->
-        <!-- WHO IS STIRLING? -->
-        <!---------------------->
+        <!--==================================================-->
+        <!--   WHO IS STIRLING?                               -->
+        <!--==================================================-->
         <h2>Who is Stirling?</h2>
         <p>
             As it turns out, these numbers have a special name, called <a href='http://mathworld.wolfram.com/StirlingNumberoftheSecondKind.html' target='_blank'>Stirling Numbers of the Second Kind</a>, which is the number of ways to partition <i>n</i> elements into <i>k</i> non-empty sets, defined as
@@ -175,14 +185,14 @@
             The numbers are named after James Stirling, a mathematician from the 18th century. The above formula is different from the one we derived by a factorial term, since Stirling did not care about ordering when he partitioned numbers into sets. In our example we want to preserve the order because we are considering all <i>k</i><sup><i>n</i></sup> possibilities as equally likely.
         </p>
 
-        <!---------------------->
-        <!-- SO HOW DID I DO? -->
-        <!---------------------->
+        <!--==================================================-->
+        <!--   SO HOW DID I DO?                               -->
+        <!--==================================================-->
         <h2>So how did I do?</h2>
         <p>
-            I ended up with only 7 of the 8 types of kinis. Was I unlucky? We can use our exact solution to find the probability of getting <i>k</i> kinds of kinis from <i>n</i> packs as
+            I ended up with only 7 of the 8 types of kinis. Was I unlucky? We can use our exact solution to find the probability of getting <i>k</i> kinds of kinis from 21 packs as
             \[
-                \mathbb{P}\left(K=k\right)={8 \choose k}\frac{T\left(n,k\right)}{8^{n}},k=1,\dots,8
+                \mathbb{P}\left(K=k\right)={8 \choose k}\frac{T\left(n=21,k\right)}{8^{n}},k=1,\dots,8
             \]
             \[
                 \begin{align*}
@@ -196,19 +206,14 @@
             So I was mildly unlucky and missed out on the 4th kini (see below). An exact test would show insufficient evidence to reject the null hypothesis that the 8 kinis are equally likely to appear in a pack.
         </p>
 
-        <img src='{{url_for('static',filename='images/kinis.jpg')}}' class='img-responsive' style='display: block; margin-top: 25px; margin-bottom: 5px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
+        <img src='{{url_for('static',filename='images/kinis.jpg')}}' class='img-responsive' style='display: block; margin-top: 25px; margin-bottom: 10px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
         <p style='font-size: 12px; margin-bottom: 25px' align='center'>there are different colours and colour patterns for each kini ... this changes everything</p>
 
-        <!-------------------->
-        <!-- FINAL THOUGHTS -->
-        <!-------------------->
+        <!--==================================================-->
+        <!--   FINAL THOUGHTS                                 -->
+        <!--==================================================-->
         <h2>Final thoughts</h2>
         <p>
             Much to the dismay of my fiancée, I ended up buying an extensive collection of the Spawn kinis and pogs from someone else on eBay to (mostly) complete the collection, as it was essentially the same price as buying 10 more individual packs. This whole experience was a great nostalgia fix for me, in more ways than one. While Stirling's numbers of the second kind might be an easy concept taught in undergraduate combinatorics courses, they reminded me of the good old days of high school math contest problems, and I was genuinely happy and excited to be talking about this novel (to me) mathematics problem. Tying in together some simple probability and statistics was just gravy. Special thanks again to Caleb for putting off his revisions to discuss the problem with me, finding out the link to Stirling, and encouraging this blog post.
         </p>
-
-        <p>
-            The source code for this post can be found <a href='https://github.com/padtai/stirlings-pogs/blob/master/stirlings-pogs.ipynb' target='_blank'>here</a>.
-        </p>
-
 {% endblock %}

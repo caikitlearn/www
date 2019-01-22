@@ -5,6 +5,7 @@
 /*   LIGHT BLUE: #AED6F1                            */
 /*==================================================*/
 
+html {overflow-y: scroll;}
 body {
     font: 20px Montserrat, Verdana, sans-serif;
     line-height: 1.5;
@@ -20,7 +21,7 @@ ul li{font-size:18px; color: #DCDCDC;}
 
 h2 {font-size: 22px; color: #E67E22;}
 h3 {font-size: 28px; color: #DCDCDC;}
-hr {height: 5px; border-color: #DCDCDC;}
+hr {height: 5px; border-color: #DCDCDC; margin-top: 10px;}
 
 /* img {margin-top: 25px; width: 30%; height: auto; min-width: 200px;} */
 input::placeholder {color: #989898;}

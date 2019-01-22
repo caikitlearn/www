@@ -1,8 +1,6 @@
 from www import app # init file
 
-from flask import render_template, jsonify, request
-import pandas as pd
-import numpy as np
+from flask import render_template
 
 ##==================================================##
 ##   HOME PAGE                                      ##
@@ -13,38 +11,23 @@ def index():
     return render_template('index.html')
 
 ##==================================================##
-##   DATA SCIENCE                                   ##
+##   BLOG                                           ##
 ##==================================================##
-@app.route('/datascience')
-def datascience():
-    return render_template('datascience/datascience.html')
-
-@app.route('/hot-hub-time-machine')
-def hot_hub_time_machine():
-    return render_template('datascience/hot-hub-time-machine.html')
-
-@app.route('/the-making-of-hot-hub-time-machine')
-def the_making_of_hot_hub_time_machine():
-    return render_template('datascience/the-making-of-hot-hub-time-machine.html')
+@app.route('/blog')
+def blog():
+    return render_template('blog/blog.html')
 
 @app.route('/scraping-data-from-basketball-reference')
 def scraping_data_from_basketball_reference():
-    return render_template('datascience/scraping-data-from-basketball-reference.html')
+    return render_template('blog/scraping-data-from-basketball-reference.html')
 
 @app.route('/basketball-reference-hall-of-fame-probabilities')
 def basketball_reference_hall_of_fame_probabilities():
-    return render_template('datascience/basketball-reference-hall-of-fame-probabilities.html')
-
-##==================================================##
-##   STATISTICS                                     ##
-##==================================================##
-@app.route('/statistics')
-def statistics():
-    return render_template('statistics/statistics.html')
+    return render_template('blog/basketball-reference-hall-of-fame-probabilities.html')
 
 @app.route('/stirlings-pogs')
-def pogs():
-    return render_template('statistics/stirlings-pogs.html')
+def stirlings_pogs():
+    return render_template('blog/stirlings-pogs.html')
 
 ##==================================================##
 ##   MISC                                           ##
@@ -56,7 +39,3 @@ def misc():
 @app.route('/tractor')
 def tractor():
     return render_template('misc/tractor.html')
-
-##==================================================##
-##   HOT HUB TIME MACHINE BGP                       ##
-##==================================================##
