@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class='container bg-main'>
+        <h3 class='margin'>
+            <a href='basketball-reference-hall-of-fame-probabilities'>Basketball-Reference Hall of Fame Probabilities</a>
+            <span class='date-right'>2018-08-12</span>
+        </h3>
+        <hr>
+
+        <!--==================================================-->
+        <!--   INTRODUCTION                                   -->
+        <!--==================================================-->
+        <h2>Introduction</h2>
+        <p>
+            Basketball-Reference uses logistic regression to estimate a Hall of Fame (HoF) probability for players with 400 or more career games, displayed under the 'Appearances on Leaderboards, Awards, and Honors' section of the player's page. These probabilities are occasionally the topic of discussion on <a href='https://www.reddit.com/r/nba/search?q=hall%20of%20fame%20probability&restrict_sr=1' target='_blank'>Reddit</a>. Some common criticisms of the methodology include not accounting for: olympic medals, college accolades, longevity, advanced stats, and various individual awards. My primary objectives for this post are to collect the same data they used, and to replicate their model.
+        </p>
+
+        <!--==================================================-->
+        <!--   WHAT DOES BASKETBALL-REFERENCE USE?            -->
+        <!--==================================================-->
+        <h2>What does Basketball-Reference use?</h2>
+        <p>
+            The <a href='https://www.basketball-reference.com/about/hof_prob.html' target='_blank'>current model</a> assumes the probability of a particular type of player entering the HoF is:
+            \[
+                \mathbb{P}\left(\textrm{HoF}_{i}|h_{i},c_{i},l_{i},w_{i},a_{i}\right)=\textrm{expit}\left[\boldsymbol{\beta}^{\intercal}\left(1,h_{i},c_{i},l_{i},w_{i},a_{i}\right)\right]
+            \]
+            where \(\hat{\boldsymbol{\beta}}^{\intercal}=\left(-0.20303,-0.14203,0.80573,0.01594,0.41568,1.02443\right)\), and
+        </p>
+        <ul>
+            <li>\(h_{i}\) is height in inches</li>
+            <li>\(c_{i}\) is number of NBA championships</li>
+            <li>\(l_{i}\) is number of NBA leaderboard points (players get 10 to 1 leaderboard points for ranking 1 to 10 for a season in any of the following categories: total minutes played, total points, total rebounds, total assists, total steals, or total blocks)</li>
+            <li>\(w_{i}\) is peak win shares (NBA seasons only)</li>
+            <li>\(a_{i}\) is number of NBA all-star games</li>
+        </ul>
+        <p>
+            Essentially, based on this model, a player starts with a baseline \(\textrm{expit}\left(-0.20303\right)=0.449\) probability of making it to the HoF, and his chances go down for each inch of his height above 0, and go up as he increases his number of championships, leaderboard points, peak win shares, and all-star games. In this example, <a href='https://www.basketball-reference.com/players/t/thompkl01.html' target='_blank'>Klay Thompson</a>'s chance of making the HoF (as of the end of the 2017-2018 season) is
+            \(\textrm{expit}\left[\hat{\boldsymbol{\beta}}^{\intercal}\left(1,79,3,8,8.797083,4\right)\right]=0.245\), where
+        </p>
+        <ul>
+            <li>79 is his height in inches</li>
+            <li>3 is his number of championships</li>
+            <li>8 is his number of leaderboard points (Klay got 2 points for being 9th in total minutes played in 2014-2015, 5 points for being 6th in total points in 2014-2015, and 1 point for being 10th in total points in 2015-2016)</li>
+            <li>8.797083 is his peak win shares, from his 2014-2015 season (Basketball-Reference displays Klay's win shares for 2014-2015 as 8.8, but to get more precision, I computed win shares from total minutes played and WS/48, which has more decimal places)</li>
+            <li>4 is his number of all-star games</li>
+        </ul>
+        <p>
+            This is slightly lower than the \(\textrm{expit}\left[\hat{\boldsymbol{\beta}}^{\intercal}\left(1,6,0,0,0,0\right)\right]=0.258\) chance the model gives a 6-inch sub to make the HoF.
+        </p>
+        <img src='{{url_for('static',filename='images/klayvssub.jpg')}}' class='img-responsive' style='display: block; margin-top: 25px; margin-bottom: 10px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
+        <p style='font-size: 12px; margin-bottom: 25px' align='center'>each bite brings the sub closer to HoF immortality</p>
+
+        <!--==================================================-->
+        <!--   THE DATA COLLECTION PROCESS                    -->
+        <!--==================================================-->
+        <h2>The data collection process</h2>
+        <p>
+            To replicate the Basketball-Reference analysis, I needed to collect the same data they used, which I scraped with <a href='https://www.crummy.com/software/BeautifulSoup/' target='_blank'>Beautiful Soup</a>. Luckily, because Basketball-Reference provides the coefficients from their logistic regression model, I was able to guess and check their inclusion/exclusion criteria by computing the fitted probabilities from my data and their coefficients, and see how different the results were. Players with big differences would point me to areas where my data differed from the Basketball-Reference data. The code used to scrape this data can be found <a href='https://github.com/padtai/scraping-data-from-basketball-reference' target='_blank'>here</a>.
+        </p>
+        <p>
+            To begin, I assembled a list of all players to ever play in the NBA, which was easily attained by scraping the <a href='https://www.basketball-reference.com/players/' target='_blank'>NBA & ABA Player Directory</a> of Basketball-Reference. Following that, for each of these players, I collected the full HTML from their player pages. Finally, the stats relevant to HoF probability calculations were extracted from the HTML, and stored as a <a href='https://github.com/padtai/scraping-data-from-basketball-reference/blob/master/data/hof.csv' target='_blank'>CSV</a>. The executable file <tt>get_hof_data.py</tt> performs all these aforementioned tasks.
+        </p>
+
+        <!--==================================================-->
+        <!--   INCLUSION/EXCLUSION CRITERIA                   -->
+        <!--==================================================-->
+        <h2>Inclusion/exclusion criteria</h2>
+        <p>
+            Next, I applied the inclusion/exclusion criteria listed by Basketball-Reference that were unequivocal:
+        </p>
+        <ul>
+            <li>Minimum of 400 NBA games played</li>
+            <li>Retired by the end of the 2004-05 season</li>
+        </ul>
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45">numpy</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45">np</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45">pandas</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45">pd</span>
+<span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45">statsmodels.api</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45">sm</span>
+
+hof=pd.read_csv(<span style="color: #CD5555">&#39;data/hof.csv&#39;</span>)
+hof=hof.loc[(hof[<span style="color: #CD5555">&#39;career_games&#39;</span>]&gt;=<span style="color: #B452CD">400</span>) &amp; (hof[<span style="color: #CD5555">&#39;To&#39;</span>]&lt;=<span style="color: #B452CD">2005</span>)].reset_index(drop=<span style="color: #658b00">True</span>)
+hof[<span style="color: #CD5555">&#39;career_win_shares&#39;</span>]=hof[<span style="color: #CD5555">&#39;career_win_shares&#39;</span>].astype(<span style="color: #658b00">float</span>)
+hof[<span style="color: #CD5555">&#39;career_length&#39;</span>]=hof[<span style="color: #CD5555">&#39;To&#39;</span>]-hof[<span style="color: #CD5555">&#39;From&#39;</span>]
+hof[<span style="color: #CD5555">&#39;aba_pct&#39;</span>]=hof[<span style="color: #CD5555">&#39;aba_years&#39;</span>]/hof[<span style="color: #CD5555">&#39;career_length&#39;</span>]
+</pre></td></tr></table></div>
+
+<div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%; margin-bottom: 0.8em">&gt;&gt;&gt; hof.shape
+(<span style="color: #B452CD">817</span>, <span style="color: #B452CD">22</span>)
+</pre></td></tr></table></div>
+        <p>
+            This left me with 817 players. The next two pieces of information are ambiguous:
+        </p>
+        <ul>
+            <li>"We excluded players that spent significant time in the ABA"</li>
+            <li>"As well, from the list of current Hall of Famers we excluded players with fewer than 50 Win Shares"</li>
+        </ul>
+        <p>
+            In the second point, it is not clear if these players are excluded from the training set entirely, or included but count as a non-HoF player. It is also not clear if the population of Hall of Famers includes those inducted as coaches or contributors. Through an iterative guess-and-check process, I was able to come close to the exact coefficients from Basketball-Reference, but was unsatisfactorily not spot-on.
+        </p>
+        <div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%">beta_hat=pd.Series([-<span style="color: #B452CD">0.20303</span>,-<span style="color: #B452CD">0.14203</span>,<span style="color: #B452CD">0.80573</span>,<span style="color: #B452CD">0.01594</span>,<span style="color: #B452CD">0.41568</span>,<span style="color: #B452CD">1.02443</span>])
+beta_hat.index=[<span style="color: #CD5555">&#39;Intercept&#39;</span>,<span style="color: #CD5555">&#39;Ht&#39;</span>,<span style="color: #CD5555">&#39;n_chips&#39;</span>,<span style="color: #CD5555">&#39;leaderboard_points&#39;</span>,<span style="color: #CD5555">&#39;peak_ws&#39;</span>,<span style="color: #CD5555">&#39;nba_asg&#39;</span>]
+hof1=hof.copy()
+hof1=hof1.loc[~((hof1[<span style="color: #CD5555">&#39;hof_as_player&#39;</span>]==<span style="color: #B452CD">1</span>) &amp; (hof1[<span style="color: #CD5555">&#39;career_win_shares&#39;</span>]&lt;<span style="color: #B452CD">50</span>))].reset_index(drop=<span style="color: #658b00">True</span>)
+ff=<span style="color: #CD5555">&#39;hof_as_player~Ht+n_chips+leaderboard_points+peak_ws+nba_asg&#39;</span>
+temp=hof1.loc[hof1[<span style="color: #CD5555">&#39;aba_pct&#39;</span>]&lt;<span style="color: #B452CD">0.4</span>].reset_index(drop=<span style="color: #658b00">True</span>)
+mm=sm.formula.glm(ff,family=sm.families.Binomial(),data=temp).fit()
+out=pd.concat([mm.params,beta_hat],axis=<span style="color: #B452CD">1</span>)
+out.columns=[<span style="color: #CD5555">&#39;my_coef&#39;</span>,<span style="color: #CD5555">&#39;bbref_coef&#39;</span>]
+</pre></td></tr></table></div>
+<div style="overflow: auto; width: auto"><table><tr><td><pre style="margin: 0; line-height: 125%; margin-bottom: 0.8em">&gt;&gt;&gt; out
+                     my_coef  bbref_coef
+Intercept          -<span style="color: #B452CD">1.240701</span>    -<span style="color: #B452CD">0.20303</span>
+Ht                 -<span style="color: #B452CD">0.117728</span>    -<span style="color: #B452CD">0.14203</span>
+n_chips             <span style="color: #B452CD">0.792000</span>     <span style="color: #B452CD">0.80573</span>
+leaderboard_points  <span style="color: #B452CD">0.018516</span>     <span style="color: #B452CD">0.01594</span>
+peak_ws             <span style="color: #B452CD">0.399723</span>     <span style="color: #B452CD">0.41568</span>
+nba_asg             <span style="color: #B452CD">0.972830</span>     <span style="color: #B452CD">1.02443</span>
+</pre></td></tr></table></div>
+        <h2>Where's the rest?</h2>
+        <p>
+
+        </p>
+
+        <br><br>
+        <p style='font-size: 12px; text-align: center;'><i>Updated 2019-01-27</i></p>
+    </div>
+
+{% endblock %}
