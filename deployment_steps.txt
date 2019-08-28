@@ -35,12 +35,33 @@ sudo certbot renew --dry-run
 # check redirects are working (from http:// and www)
 # check http://padtai.ca:5000 works
 
-Step 7: configure nginx
+Step 7: configure nginx part 1
+
+sudo rm /etc/nginx/sites-enabled/default
+sudo touch /etc/nginx/sites-available/application
+sudo ln -s /etc/nginx/sites-available/application /etc/nginx/sites-enabled/application
+
+sudo vim /etc/nginx/sites-enabled/application
+
+server {
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+    location /static {
+        alias /home/ubuntu/www/www/static;
+    }
+}
+
+sudo /etc/init.d/nginx restart
+
+Step 8: configure nginx part 2
+
 cd /etc/nginx/conf.d
 sudo touch server.conf
 sudo vim server.conf
 
-#
 server {
     listen 80;
     listen [::]:80;
@@ -73,7 +94,6 @@ server {
     ssl_session_timeout 1h;
     add_header Strict-Transport-Security “max-age=15768000” always;
 }
-#
 
 sudo nginx -s reload
 
