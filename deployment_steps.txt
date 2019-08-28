@@ -97,5 +97,5 @@ server {
 
 sudo nginx -s reload
 
-Step 8: gunicorn
+Step 9: gunicorn
 gunicorn www:app -D
