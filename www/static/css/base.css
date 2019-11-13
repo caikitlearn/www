@@ -1,5 +1,5 @@
 /*==================================================*/
-/*   LIGHT GRAY: #DCDCDC                            */
+/*   LIGHT GRAY: #F5F5F5                            */
 /*   ORANGE: #E67E22                                */
 /*   DARK GRAY: #383838                             */
 /*   LIGHT BLUE: #AED6F1                            */
@@ -13,15 +13,15 @@ body {
     padding-bottom: 100px;
     background-color: #383838;
 }
-p {font-size: 18px; color: #DCDCDC;}
+p {font-size: 18px; color: #F5F5F5;}
 pre {background-color: #EEEEDD;}
 
 ol {list-style-type: decimal;}
-ul li{font-size:18px; color: #DCDCDC;}
+ul li{font-size:18px; color: #F5F5F5;}
 
 h2 {font-size: 22px; color: #E67E22;}
-h3 {font-size: 28px; color: #DCDCDC;}
-hr {height: 5px; border-color: #DCDCDC; margin-top: 10px;}
+h3 {font-size: 28px; color: #F5F5F5;}
+hr {height: 5px; border-color: #F5F5F5; margin-top: 10px;}
 
 /* img {margin-top: 25px; width: 30%; height: auto; min-width: 200px;} */
 input::placeholder {color: #989898;}
@@ -49,19 +49,19 @@ input::placeholder {color: #989898;}
 .navbar-default {border: #383838;}
 .navbar-default .navbar-brand {color: #383838;}
 .navbar-default .navbar-brand:hover,
-.navbar-default .navbar-brand:focus {color: #DCDCDC;}
+.navbar-default .navbar-brand:focus {color: #F5F5F5;}
 .navbar-default .navbar-nav > li > a {color: #383838;}
-.navbar-default .navbar-nav > li > a:hover {color: #DCDCDC;}
+.navbar-default .navbar-nav > li > a:hover {color: #F5F5F5;}
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {border-color: transparent; box-shadow: none;}
 .navbar-default .navbar-toggle {border-color: transparent; background-color: #E67E22;}
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:active {background-color: #E67E22;}
 .navbar-default .navbar-toggle .icon-bar {background-color: #383838;}
-.navbar-default .navbar-toggle:hover .icon-bar {background-color: #DCDCDC;}
+.navbar-default .navbar-toggle:hover .icon-bar {background-color: #F5F5F5;}
 
 /*==================================================*/
 /*   FONT AWESOME ICONS STYLES                      */
 /*==================================================*/
-.fa-circle {color: #DCDCDC;}
+.fa-circle {color: #F5F5F5;}
 .fa-envelope {color: #383838;}
 .fa-envelope:hover {color: #E67E22;}
 .fa-linkedin {color: #383838;}
