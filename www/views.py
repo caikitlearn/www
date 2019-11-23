@@ -17,10 +17,6 @@ def index():
 def blog():
     return render_template('blog/blog.html')
 
-@app.route('/scraping-data-from-basketball-reference')
-def scraping_data_from_basketball_reference():
-    return render_template('blog/scraping-data-from-basketball-reference.html')
-
 @app.route('/basketball-reference-hall-of-fame-probabilities')
 def basketball_reference_hall_of_fame_probabilities():
     return render_template('blog/basketball-reference-hall-of-fame-probabilities.html')
@@ -28,6 +24,10 @@ def basketball_reference_hall_of_fame_probabilities():
 @app.route('/stirlings-pogs')
 def stirlings_pogs():
     return render_template('blog/stirlings-pogs.html')
+
+@app.route('/stephen-ai-smith')
+def stephen_ai_smith():
+    return render_template('blog/stephen-ai-smith.html')
 
 ##==================================================##
 ##   MISC                                           ##

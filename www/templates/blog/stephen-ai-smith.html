@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class='container bg-main'>
+        <h3 class='margin'>
+            <a href='stephen-ai-smith'>Stephen A.I. Smith</a>
+            <span class='date-right'>2019-11-15</span>
+        </h3>
+        <hr>
+
+        <!--==================================================-->
+        <!--   THIS IS JUST SO DISRESPECTFUL                  -->
+        <!--==================================================-->
+        <h2>This is just so DISRESPECTFUL</h2>
+        <p>
+            Sometimes a series of events comes together so nicely for a project that I just have to drop every other thing I'm doing. This week, that resulted in Stephen A.I. Smith, a model that generates <a href='https://twitter.com/stephenasmith' target='_blank'>Stephen A. Smith</a> style tweets, trained using the "small" 124 million parameter version of <a href='https://openai.com/blog/better-language-models/' target='_blank'>Open AI's state-of-the-art GPT-2</a>. Twitter accounts like these are nothing new, but it was my duty to make this particular one.
+        </p>
+        <p>
+            I want to make it very clear that I am in no way mocking Stephen A. Smith; I consider him one of the greatest television personalities out there, and he has been a perpetual source of entertainment over the past decade. This project started out as an exercise comparing properties of RNNs with statistical time series models, but now here we are.
+        </p>
+
+        <!--==================================================-->
+        <!--   WHO IS STEPHEN A. SMITH?                       -->
+        <!--==================================================-->
+        <h2>Who is Stephen A. Smith?</h2>
+        <p>
+            This is not the first time Stephen A. Smith has been the subject of <a href='https://www.si.com/extra-mustard/2019/05/21/stephen-smith-baby-filter-snapchat-espn-first-take' target='_blank'>applied machine learning</a>, but it is shocking that a Google search of "Stephen A. Smith text generator" yielded no similar projects. The man is an icon in the sports television community. He has about 100 jobs, most notably as the co-host of ESPN's First Take, and is perhaps best known for his hilarious <a href='https://en.wikipedia.org/wiki/Stephen_A._Smith#First_Take_catchphrases' target='_blank'>catchphrases</a>, his insightful commentary, and his starring role on ABC's <a href='https://youtu.be/8CO6kAwo-_Y' target='_blank'>General Hospital</a>. If you have the right sense of humor, a few clips is all it takes to appreciate him. Here is a collection of some of his greatest hits (I take no responsibility for any changes to your YouTube recommendations):
+        </p>
+        <ol>
+            <li><a href='https://youtu.be/PM6ZNVRYP8w?t=206' target='_blank''>Asi-nine, asi-ten, asi-eleven, asi-twelve</a></li>
+            <li><a href='https://youtu.be/mAV32z8OxCY?t=71' target='_blank''>Blasphemous</a></li>
+            <li><a href='https://youtu.be/EAD7L_GWkb0' target='_blank'>Disrespectful</a></li>
+            <li><a href='https://youtu.be/DQmJOaS036U?t=133' target='_blank'>Hoodwinked, bamboozled, led astray, run amok, and FLAT OUT DECEIVED</a></li>
+            <li><a href='https://youtu.be/JzhY5Quok-E?t=43' target='_blank'>JaMarcus Russell</a></li>
+            <li><a href='https://youtu.be/6PP4RT-vv-o' target='_blank'>Kwame Brown (example 1)</a>, <a href='https://youtu.be/rq44jwL4BT0?t=31' target='_blank''>Kwame Brown (example 2: Bill Walton with the lob)</a></li>
+            <li><a href='https://youtu.be/eFHN8nVX9Xs' target='_blank'>Slava & Rasho</a></li>
+            <li><a href='https://youtu.be/DQmJOaS036U?t=101' target='_blank'>The temerity, the unmitigated gall...</a></li>
+        </ol>
+
+        <!--==================================================-->
+        <!--   HOW DOES THE MODEL WORK?                       -->
+        <!--==================================================-->
+        <h2>How does the model work?</h2>
+        <p>
+            ...
+            In fact, this entire post was generating using GPT-2 - just kidding.
+
+            Therein lies the concern.
+
+            Initial results were underwhelming, either generating a lot of nonsense or generating passages that were too similar to the training data. Demand the best for...
+
+            Really excited = amazing pwoer of ope nsource for g'ogood.
+            close personal friend
+            rudy gay elevates
+            unequivocal
+        </p>
+        <img src='{{url_for('static',filename='images/mtl.jpg')}}' class='img-responsive' style='display: block; margin-top: 25px; margin-bottom: 10px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
+        <p style='font-size: 12px; margin-bottom: 25px' align='center'>simpler times</p>
+        Once the model produces tweets, they are scored based on a separate model...
+
+        <!--==================================================-->
+        <!--   HOW DOES                      -->
+        <!--==================================================-->
+        <h2>How do I select the tweets to show?</h2>
+        <p>
+            Once the list of tweets are generated, they are fed into another model that predicts how many RTs and favs the tweet receives.
+        </p>
+
+
+        <!--==================================================-->
+        <!--   AN EXACT SOLUTION                              -->
+        <!--==================================================-->
+        <h2>An exact solution</h2>
+
+        <br><br>
+        <p style='font-size: 12px; text-align: center;'><i>Updated 2019-01-26</i></p>
+{% endblock %}

@@ -1,7 +1,7 @@
 /*==================================================*/
 /*   LIGHT GRAY: #F5F5F5                            */
 /*   ORANGE: #E67E22                                */
-/*   DARK GRAY: #383838                             */
+/*   DARK GRAY: #202020                             */
 /*   LIGHT BLUE: #AED6F1                            */
 /*==================================================*/
 
@@ -11,23 +11,23 @@ body {
     line-height: 1.5;
     padding-top: 125px;
     padding-bottom: 100px;
-    background-color: #383838;
+    background-color: #202020;
 }
+
 p {font-size: 18px; color: #F5F5F5;}
 pre {background-color: #EEEEDD;}
 
-ol {list-style-type: decimal;}
+ol {list-style-type: decimal; color: #F5F5F5;}
 ul li{font-size:18px; color: #F5F5F5;}
 
 h2 {font-size: 22px; color: #E67E22;}
 h3 {font-size: 28px; color: #F5F5F5;}
 hr {height: 5px; border-color: #F5F5F5; margin-top: 10px;}
 
-/* img {margin-top: 25px; width: 30%; height: auto; min-width: 200px;} */
 input::placeholder {color: #989898;}
 
 .margin {margin-bottom: 5px;}
-.bg-main {background-color: #383838;}
+.bg-main {background-color: #202020;}
 .bg-foot {background-color: #E67E22;}
 .date-right {float: right; font-size: 12px; line-height: 40px;}
 
@@ -46,29 +46,29 @@ input::placeholder {color: #989898;}
     background-color: #E67E22; /* orange */
     z-index: 1;
 }
-.navbar-default {border: #383838;}
-.navbar-default .navbar-brand {color: #383838;}
+.navbar-default {border: #202020;}
+.navbar-default .navbar-brand {color: #202020;}
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {color: #F5F5F5;}
-.navbar-default .navbar-nav > li > a {color: #383838;}
+.navbar-default .navbar-nav > li > a {color: #202020;}
 .navbar-default .navbar-nav > li > a:hover {color: #F5F5F5;}
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {border-color: transparent; box-shadow: none;}
 .navbar-default .navbar-toggle {border-color: transparent; background-color: #E67E22;}
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:active {background-color: #E67E22;}
-.navbar-default .navbar-toggle .icon-bar {background-color: #383838;}
+.navbar-default .navbar-toggle .icon-bar {background-color: #202020;}
 .navbar-default .navbar-toggle:hover .icon-bar {background-color: #F5F5F5;}
 
 /*==================================================*/
 /*   FONT AWESOME ICONS STYLES                      */
 /*==================================================*/
 .fa-circle {color: #F5F5F5;}
-.fa-envelope {color: #383838;}
+.fa-envelope {color: #202020;}
 .fa-envelope:hover {color: #E67E22;}
-.fa-linkedin {color: #383838;}
+.fa-linkedin {color: #202020;}
 .fa-linkedin:hover {color: #E67E22;}
-.fa-github {color: #383838;}
+.fa-github {color: #202020;}
 .fa-github:hover {color: #E67E22;}
-.fa-list-alt {color: #383838;}
+.fa-list-alt {color: #202020;}
 .fa-list-alt:hover {color: #E67E22;}
 
 /*==================================================*/
@@ -83,4 +83,4 @@ input::placeholder {color: #989898;}
     background-color: #E67E22;
     text-align: center;
 }
-.footer p {margin: 0 0;}
+.footer p {margin: 0 0; color: #202020;}
