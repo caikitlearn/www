@@ -1,0 +1,79 @@
+\documentclass{article}
+
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\renewcommand\baselinestretch{0.75}
+\fontfamily{qcr}
+%%%<
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+%%%>
+
+\begin{comment}
+:Title: Simple flow chart
+:Tags: Diagrams
+
+With PGF/TikZ you can draw flow charts with relative ease. This flow chart from [1]_
+outlines an algorithm for identifying the parameters of an autonomous underwater vehicle model.
+
+Note that relative node
+placement has been used to avoid placing nodes explicitly. This feature was
+introduced in PGF/TikZ >= 1.09.
+
+.. [1] Bossley, K.; Brown, M. & Harris, C. Neurofuzzy identification of an autonomous underwater vehicle `International Journal of Systems Science`, 1999, 30, 901-913
+
+
+\end{comment}
+
+
+\begin{document}
+\pagestyle{empty}
+
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20,
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20,
+    text width=6em, text centered, rounded corners, minimum height=3em, minimum width=7em]
+\tikzstyle{small-block} = [rectangle, draw, fill=blue!20,
+    text width=5em, text centered, rounded corners, minimum height=2em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+
+\tiny
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes
+    \node [block] (init) {all tweets from 2009-2019 (36,241)};
+    \node [block, left of=init] (gpt2data) {tweets with 100+ favs (8,013)};
+    \node [block, below of=gpt2data] (gpt2model) {modified GPT-2};
+    \node [block, below of=gpt2model] (gpt2output) {1,000 generated tweets};
+    \node [block, right of=init] (bleu) {creating BLEU references};
+    \node [block, below of=init] (scoringdata) {tweets with 5+ words (29,046)};
+    \node [block, below of=scoringdata] (scoringmodel) {scoring model};
+    \node [block, below of=scoringmodel] (top100) {top 100 generated tweets};
+    \node [block, below of=top100] (unique) {top unique tweets};
+    \node [block, below of=unique] (twitter) {publish to Twitter};
+    % \node [block, left of=evaluate, node distance=3cm] (update) {update model};
+    % \node [decision, below of=evaluate] (decide) {is best candidate better?};
+    % \node [block, below of=decide, node distance=3cm] (stop) {stop};
+    % Draw edges
+    \path [line] (init) -- (bleu);
+    \path [line] (gpt2data) -- node {training} (gpt2model);
+    \path [line] (gpt2model) -- node {predict} (gpt2output);
+    \path [line] (gpt2output) -- (scoringmodel);
+    \path [line] (scoringmodel) -- node {predict} (top100);
+    % \path [line] (decide) -| node [near start] {yes} (update);
+    % \path [line] (decide) -- node {no}(stop);
+    \path [line] (init) -- (gpt2data);
+    \path [line] (scoringdata) -- node {training} (scoringmodel);
+    \path [line] (init) -- (scoringdata);
+    \path [line] (bleu) |- (top100);
+    \path [line] (top100) -- node {removing overfitted Tweets} (unique);
+    \path [line] (unique) -- node {manual filtering} (twitter);
+\end{tikzpicture}
+
+\end{document}

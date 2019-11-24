@@ -13,10 +13,67 @@
         <!--==================================================-->
         <h2>This is just so DISRESPECTFUL</h2>
         <p>
-            Sometimes a series of events comes together so nicely for a project that I just have to drop every other thing I'm doing. This week, that resulted in Stephen A.I. Smith, a model that generates <a href='https://twitter.com/stephenasmith' target='_blank'>Stephen A. Smith</a> style tweets, trained using the "small" 124 million parameter version of <a href='https://openai.com/blog/better-language-models/' target='_blank'>Open AI's state-of-the-art GPT-2</a>. Twitter accounts like these are nothing new, but it was my duty to make this particular one.
+            <a href='https://twitter.com/real_stephen_ai' target='_blank'>@real_stephen_ai</a>
         </p>
         <p>
-            I want to make it very clear that I am in no way mocking Stephen A. Smith; I consider him one of the greatest television personalities out there, and he has been a perpetual source of entertainment over the past decade. This project started out as an exercise comparing properties of RNNs with statistical time series models, but now here we are.
+            Sometimes a series of events comes together so nicely for a project that I just have to drop every other thing I'm doing. This week, that resulted in Stephen A.I. Smith, a model that generates <a href='https://twitter.com/stephenasmith' target='_blank'>Stephen A. Smith</a> style tweets, trained using the "medium" 355 million parameter version of <a href='https://openai.com/blog/better-language-models/' target='_blank'>Open AI's state-of-the-art GPT-2</a>. Twitter accounts like these are nothing new, but it was my <strong>*duty*</strong> to make this particular one.
+        </p>
+        <p>
+            Here are some hand-picked tweets that were generated. I replaced '@' with '&lt;at&gt;' to prevent spamming random accounts, and links in tweets were replaced with the &lt;url&gt; tag for data sanitation purposes. For the full effect, try to read these in his voice:
+        </p>
+        <ol>
+            <li style='color: #F5CBA7;'>&lt;at&gt;lakethisb I don't blame you bro. I don't care if you're a &lt;at&gt;warriors fan, or a Lakers fan, you can tell I'm watching. We don't give a damn about &lt;at&gt;KyrieIrving. We're &lt;at&gt;trend</li>
+            <li style='color: #F5CBA7;'>I don't think anyone is better than &lt;at&gt;KyrieIrving. &lt;url&gt;</li>
+            <li style='color: #F5CBA7;'>I want to apologize for being completely idiotic. I'm a reporter and I'm the one with the passion. I don't care about the words people spew. I get it. If you can't agree, why the hell do you want to disagree.</li>
+            <li style='color: #F5CBA7;'>The &lt;at&gt;nyjets were so desperate to sign &lt;at&gt;warriors WR &lt;at&gt;KlayThompson to the #NFL. They told me he'd sign w/t the &lt;at&gt;warriors but they had no interest. And the &lt;at&gt;tribs have refused him</li>
+            <li style='color: #F5CBA7;'>&lt;at&gt;kennybluft That's why I've come up with this hashtag: Haterspirit. And now I'll be the one to tell you all that &lt;at&gt;RealSkipBayless is going down!</li>
+            <li style='color: #F5CBA7;'>I don't have that many followers because I'm not trying to change, but I have enough followers. What I need is more followers.</li>
+            <li style='color: #F5CBA7;'>Golden State is doing it again Jimmer Fredette. They can't allow Brock Osweiler to go. #WhatAEPream &lt;url&gt;</li>
+            <li style='color: #F5CBA7;'>There's a reason the 49ers were stripped of &lt;at&gt;TigerWoods on Sunday. &lt;url&gt;</li>
+            <li style='color: #F5CBA7;'>I'm not buying that. This kid at Vanderbilt is so horrible, I wish he'd've been ejected. He deserves some money.</li>
+            <li style='color: #F5CBA7;'>&lt;at&gt;theRobMac I don't. But he's my friend. My sister. I do what I do. I'm doing WHAT I DO. I'm not defending anyone, though.</li>
+        </ol>
+        <p>
+            Some of the tweets are very coherent, others are complete junk, and quite a few are entertaining. Even though the GPT-2 model should produce good generated text, re-training on the twitter data introduces more noise, since tweets typically contain poor spelling/grammar, and unknown tokens such as emojis and hashtags.
+        </p>
+        <p>
+            Another feature of the model is sentence completion, where you can input leading sentences and have the model finish the tweet. For example, leading with "The best player in the NBA is", we get:
+        </p>
+        <ol>
+            <li style='color: #F5CBA7;'>The best player in the NBA is Dwight Howard #NBAPlayoffs &lt;url&gt;</li>
+            <li style='color: #F5CBA7;'>The best player in the NBA is the one we love.#Enlightenment &lt;url&gt;</li>
+            <li style='color: #F5CBA7;'>The best player in the NBA is a future history teacher???<br>
+                                        I know this. If Teague is there, there will be a class action suit later.</li>
+            <li style='color: #F5CBA7;'>The best player in the NBA is AJ Green. You don't LIE to the world!" Similarly said, Thanks my man! <url></li>
+            <li style='color: #F5CBA7;'>The best player in the NBA is Lance Stephenson. Only time will tell if he can ... &lt;at&gt;KingJames eventually shifted from the L.A. media to NY rather than LA. &lt;url&gt;</li>
+        </ol>
+        <p>
+            Leading with "The Lakers should trade":
+        </p>
+        <ol>
+            <li style='color: #F5CBA7;'>The Lakers should trade Kobe, too, but if they're going to be a contender they have to find a way to draft well. They do not have a clear No.1 with Melo. It won't matter.</li>
+            <li style='color: #F5CBA7;'>The Lakers should trade Kobe Bryant to Nashville, Draymond. I'm just saying Jeff Van Gundy has to be careful to not make his Kobe-hating end too ugly, too soon. No wonder MSG just stares! &lt;url&gt;</li>
+            <li style='color: #F5CBA7;'>The Lakers should trade KG. Kobe is 32 years old and they're still in the West. Besides, Pau Gasol is better. Nobody wants to see KG with Kobe, but you can sure as hell do a deal that'll leave him outside the West.</li>
+            <li style='color: #F5CBA7;'>The Lakers should trade Ndamukong Suh for Roy Williams. From: Jon Gruden &lt;url&gt;</li>
+            <li style='color: #F5CBA7;'>The Lakers should trade Kobe Bryant.<br>
+                                        The Lakers should trade Kobe if the offer is in the range of the 4th-tier teams.<br>
+                                        Knicks should fail in front of a TV crowd again.<br>
+                                        Example for anyone who wants to learn how to do that, follow the tweets.<br>
+                                        The Lakers should be greedy over Bryant and get this done.<br>
+                                        After 9 Years of Bowing out on salary, Paulie would lead  Lakers to MEGA LEAGUE win. That's all</li>
+        </ol>
+        <p>
+            Leading with "Drake is without a doubt":
+        </p>
+        <ol>
+            <li style='color: #F5CBA7;'>Drake is without a doubt stronger, he has the demeanor to be *more*emotional and He knows how to handle it. Effort is skill. Period.</li>
+            <li style='color: #F5CBA7;'>Drake is without a doubt the HONORABLE MAN. Anyone who dares disrespect him, I am giving you VERY BAD DETAILS.</li>
+            <li style='color: #F5CBA7;'>Drake is without a doubt the best Editor in the game. Cortana is wasting her time and Eloquence by downplaying what &lt;url&gt;e on our Bowl Subdivision Title fives. We're WAY INITIALLY TO the NFL playoffs. We're a+</li>
+            <li style='color: #F5CBA7;'>Drake is without a doubt the best big man in the world..not getting the opportunity to go against him every night. As for Kevin Love…HAVE FUN. He's still a top-6 player via data. STupid PRACTICAL SENSE is what I believe in. Better men can become great NBA players than dumb ones.</li>
+            <li style='color: #F5CBA7;'>Drake is without a doubt the greatest receiver to ever lace it up. Seems like he's doing that quite a bit more. And he's not holding back on the smell. I'm loving this.</li>
+        </ol>
+        <p>
+            I want to make it very clear that I am in no way mocking Stephen A. Smith; I consider him one of the greatest television personalities out there, and he has been (and will continue to be) a perpetual source of entertainment over the past decade. This project started out as an exercise comparing RNNs to statistical time series models, but now here we are.
         </p>
 
         <!--==================================================-->
@@ -38,40 +95,23 @@
         </ol>
 
         <!--==================================================-->
-        <!--   HOW DOES THE MODEL WORK?                       -->
+        <!--   HOW ARE THE TWEETS GENERATED?                  -->
         <!--==================================================-->
-        <h2>How does the model work?</h2>
+        <h2>How are the tweets generated?</h2>
         <p>
-            ...
-            In fact, this entire post was generating using GPT-2 - just kidding.
-
-            Therein lies the concern.
-
-            Initial results were underwhelming, either generating a lot of nonsense or generating passages that were too similar to the training data. Demand the best for...
-
-            Really excited = amazing pwoer of ope nsource for g'ogood.
-            close personal friend
-            rudy gay elevates
-            unequivocal
+            Due to the prohibitive size of the released GPT-2 models, it was difficult to have a streamlined end-to-end process on my local machine (let alone my tiny t2.micro AWS EC2 instance), as even the smallest model is not re-trainable on my 1080 Ti. As a result, the process is a bit more nuanced, as illustrated below.
         </p>
-        <img src='{{url_for('static',filename='images/mtl.jpg')}}' class='img-responsive' style='display: block; margin-top: 25px; margin-bottom: 10px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
-        <p style='font-size: 12px; margin-bottom: 25px' align='center'>simpler times</p>
-        Once the model produces tweets, they are scored based on a separate model...
-
-        <!--==================================================-->
-        <!--   HOW DOES                      -->
-        <!--==================================================-->
-        <h2>How do I select the tweets to show?</h2>
         <p>
-            Once the list of tweets are generated, they are fed into another model that predicts how many RTs and favs the tweet receives.
+            Tweets are collected using a modified version of <a href='https://github.com/bpb27/twitter_scraping'>this repo</a>. Since Stephen A. has many short tweets like "thanks" or "appreciate it" or "haa", I filtered for the most popular tweets (100 or more favs) so that we can re-train  the GPT-2 model on his greatest hits. The training itself is facilitated by this useful <a href='https://github.com/minimaxir/gpt-2-simple' target='_blank'>wrapper</a>, and the use of a Google Colab notebook with GPU acceleration. Once the model is done re-training, I can use it to generated new tweets, or complete leading prompts.
         </p>
-
-
-        <!--==================================================-->
-        <!--   AN EXACT SOLUTION                              -->
-        <!--==================================================-->
-        <h2>An exact solution</h2>
-
+        <p>
+            Of course, it would be very time-consuming to manually sort through the <a href='https://xkcd.com/1838/' target='_blank'>sea of output</a>. Thus, I built a separate scoring model to predict favs based on tweets. The generated tweets are fed through this scoring model, and I keep the top 100 highest scoring tweets for further review (inappropriate content, buggy results, etc.). Finally, to make sure neither the GPT-2 nor scoring model are overfitting, I compute the BLEU score of each of the 100 tweets, and filter out tweets who are too similar to existing tweets.
+        </p>
+        <img src='{{url_for('static',filename='images/flowchart.jpg')}}' class='img-responsive' style='display: block; margin-top: 25px; margin-bottom: 10px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
+        <p style='font-size: 12px; margin-bottom: 25px' align='center'>it's pronounced BLEU</p>
+        <p>
+            This project really made me appreciate the open source community; 10 years ago, doing a comparable project would have taken me months due to the need to code and learn each major step from scratch. To try it out yourself, the GPT-2 training data I used can be found <a href='https://github.com/caikitlearn/stephen-ai-smith/blob/master/data/stephenasmith_gpt2.csv'>here</a>, and you can use the re-training template in this <a href='https://colab.research.google.com/drive/1RugXCYDcMvSACYNt9j0kB6zzqRKzAbBn' target='_blank'>Colab notebook</a> by Max Woolf.
+        </p>
         <br><br>
-        <p style='font-size: 12px; text-align: center;'><i>Updated 2019-01-26</i></p>
+        <p style='font-size: 12px; text-align: center;'><i>Updated 2019-11-24</i></p>
 {% endblock %}

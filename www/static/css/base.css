@@ -2,7 +2,7 @@
 /*   LIGHT GRAY: #F5F5F5                            */
 /*   ORANGE: #E67E22                                */
 /*   DARK GRAY: #202020                             */
-/*   LIGHT BLUE: #AED6F1                            */
+/*   LIGHT BLUE: #D6EAF8                            */
 /*==================================================*/
 
 html {overflow-y: scroll;}
@@ -17,8 +17,8 @@ body {
 p {font-size: 18px; color: #F5F5F5;}
 pre {background-color: #EEEEDD;}
 
-ol {list-style-type: decimal; color: #F5F5F5;}
-ul li{font-size:18px; color: #F5F5F5;}
+ol {font-size: 18px; list-style-type: decimal; color: #F5F5F5;}
+ul li{font-size: 18px; color: #F5F5F5;}
 
 h2 {font-size: 22px; color: #E67E22;}
 h3 {font-size: 28px; color: #F5F5F5;}
