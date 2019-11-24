@@ -16,10 +16,13 @@
             <a href='https://twitter.com/real_stephen_ai' target='_blank'>@real_stephen_ai</a>
         </p>
         <p>
-            Sometimes a series of events comes together so nicely for a project that I just have to drop every other thing I'm doing. This week, that resulted in Stephen A.I. Smith, a model that generates <a href='https://twitter.com/stephenasmith' target='_blank'>Stephen A. Smith</a> style tweets, trained using the "medium" 355 million parameter version of <a href='https://openai.com/blog/better-language-models/' target='_blank'>Open AI's state-of-the-art GPT-2</a>. Twitter accounts like these are nothing new, but it was my <strong>*duty*</strong> to make this particular one.
+            Sometimes a series of events comes together so nicely for a project that I just have to drop every other thing I'm doing. This week, that resulted in Stephen A.I. Smith, a model that generates <a href='https://twitter.com/stephenasmith' target='_blank'>Stephen A. Smith</a> style tweets, trained using the "small" 124 million parameter version of <a href='https://openai.com/blog/better-language-models/' target='_blank'>Open AI's state-of-the-art GPT-2</a>. Twitter accounts like these are nothing new, but it was my <strong>*duty*</strong> to make this particular one.
         </p>
         <p>
-            Here are some hand-picked tweets that were generated. I replaced '@' with '&lt;at&gt;' to prevent spamming random accounts, and links in tweets were replaced with the &lt;url&gt; tag for data sanitation purposes. For the full effect, try to read these in his voice:
+            I want to make it very clear that I am in no way mocking Stephen A. Smith; I consider him one of the greatest television personalities out there, and he has been (and will continue to be) a perpetual source of entertainment over the past decade. This project started out as an exercise comparing RNNs to statistical time series models, but now here we are.
+        </p>
+        <p>
+            Here are some hand-picked tweets that were generated. I replaced '@' with '&lt;at&gt;' to avoid spamming random accounts, and links in tweets were replaced with the &lt;url&gt; tag for data sanitation purposes. For the full effect, try to read these in his voice:
         </p>
         <ol>
             <li style='color: #F5CBA7;'>&lt;at&gt;lakethisb I don't blame you bro. I don't care if you're a &lt;at&gt;warriors fan, or a Lakers fan, you can tell I'm watching. We don't give a damn about &lt;at&gt;KyrieIrving. We're &lt;at&gt;trend</li>
@@ -34,7 +37,7 @@
             <li style='color: #F5CBA7;'>&lt;at&gt;theRobMac I don't. But he's my friend. My sister. I do what I do. I'm doing WHAT I DO. I'm not defending anyone, though.</li>
         </ol>
         <p>
-            Some of the tweets are very coherent, others are complete junk, and quite a few are entertaining. Even though the GPT-2 model should produce good generated text, re-training on the twitter data introduces more noise, since tweets typically contain poor spelling/grammar, and unknown tokens such as emojis and hashtags.
+            Some of the tweets are very coherent, others are complete junk, and quite a few are entertaining. Even though the GPT-2 model should produce good generated text, re-training on the twitter data introduces noise, since tweets typically contain poor spelling/grammar, and unknown tokens such as emojis and hashtags (not to mention the cornucopia of equivocal words that is Stephen A's lexicon).
         </p>
         <p>
             Another feature of the model is sentence completion, where you can input leading sentences and have the model finish the tweet. For example, leading with "The best player in the NBA is", we get:
@@ -72,9 +75,6 @@
             <li style='color: #F5CBA7;'>Drake is without a doubt the best big man in the world..not getting the opportunity to go against him every night. As for Kevin Love…HAVE FUN. He's still a top-6 player via data. STupid PRACTICAL SENSE is what I believe in. Better men can become great NBA players than dumb ones.</li>
             <li style='color: #F5CBA7;'>Drake is without a doubt the greatest receiver to ever lace it up. Seems like he's doing that quite a bit more. And he's not holding back on the smell. I'm loving this.</li>
         </ol>
-        <p>
-            I want to make it very clear that I am in no way mocking Stephen A. Smith; I consider him one of the greatest television personalities out there, and he has been (and will continue to be) a perpetual source of entertainment over the past decade. This project started out as an exercise comparing RNNs to statistical time series models, but now here we are.
-        </p>
 
         <!--==================================================-->
         <!--   WHO IS STEPHEN A. SMITH?                       -->
@@ -99,19 +99,35 @@
         <!--==================================================-->
         <h2>How are the tweets generated?</h2>
         <p>
-            Due to the prohibitive size of the released GPT-2 models, it was difficult to have a streamlined end-to-end process on my local machine (let alone my tiny t2.micro AWS EC2 instance), as even the smallest model is not re-trainable on my 1080 Ti. As a result, the process is a bit more nuanced, as illustrated below.
-        </p>
-        <p>
-            Tweets are collected using a modified version of <a href='https://github.com/bpb27/twitter_scraping'>this repo</a>. Since Stephen A. has many short tweets like "thanks" or "appreciate it" or "haa", I filtered for the most popular tweets (100 or more favs) so that we can re-train  the GPT-2 model on his greatest hits. The training itself is facilitated by this useful <a href='https://github.com/minimaxir/gpt-2-simple' target='_blank'>wrapper</a>, and the use of a Google Colab notebook with GPU acceleration. Once the model is done re-training, I can use it to generated new tweets, or complete leading prompts.
-        </p>
-        <p>
-            Of course, it would be very time-consuming to manually sort through the <a href='https://xkcd.com/1838/' target='_blank'>sea of output</a>. Thus, I built a separate scoring model to predict favs based on tweets. The generated tweets are fed through this scoring model, and I keep the top 100 highest scoring tweets for further review (inappropriate content, buggy results, etc.). Finally, to make sure neither the GPT-2 nor scoring model are overfitting, I compute the BLEU score of each of the 100 tweets, and filter out tweets who are too similar to existing tweets.
+            Due to the prohibitive size of the released GPT-2 models, it was difficult to have a streamlined end-to-end process on my local machine (let alone my tiny t2.micro AWS EC2 instance), as even the smallest model is not easily re-trainable on my 1080 Ti. As a result, the process is a bit more nuanced, as illustrated below.
         </p>
         <img src='{{url_for('static',filename='images/flowchart.jpg')}}' class='img-responsive' style='display: block; margin-top: 25px; margin-bottom: 10px; margin-left: auto; margin-right: auto; width: 50%; height: auto; min-width: 300px;'>
-        <p style='font-size: 12px; margin-bottom: 25px' align='center'>it's pronounced BLEU</p>
+        <p style='font-size: 12px; margin-bottom: 25px' align='center'>it's pronounced <a href='https://www.youtube.com/playlist?list=PLsDR-TLLci6Z5ncsLg72lbENimk-iu3jl' target='_blank'>BLEU</a></p>
+        <p>
+            Tweets are scraped using a modified version of <a href='https://github.com/bpb27/twitter_scraping'>this repo</a>. Since Stephen A has many short tweets like "thanks" or "appreciate it" or "haa", I filtered for the most popular tweets (100 or more favs), so that I can re-train the GPT-2 model on his greatest hits. The training itself is facilitated by this useful <a href='https://github.com/minimaxir/gpt-2-simple' target='_blank'>wrapper</a> and the use of a Google Colab notebook. Once the model is done re-training, I can use it to generate new tweets, or to complete leading prompts. I typically generate 1,000 tweets at a time.
+        </p>
+        <p>
+            Of course, it would be very time-consuming to manually sort through the <a href='https://xkcd.com/1838/' target='_blank'>sea of output</a>, so I built a separate scoring model (using essentially all the scraped Tweets) to classify tweets with 100+ favs. The generated tweets are fed through this scoring model, and I keep the top 100 to manually review. Finally, to remove any overfitted predictions, I compute the <a href='https://en.wikipedia.org/wiki/BLEU'>BLEU</a> score of each of the 100 tweets (using the original tweets as reference), and filter out tweets who are too similar to existing tweets.
+        </p>
         <p>
             This project really made me appreciate the open source community; 10 years ago, doing a comparable project would have taken me months due to the need to code and learn each major step from scratch. To try it out yourself, the GPT-2 training data I used can be found <a href='https://github.com/caikitlearn/stephen-ai-smith/blob/master/data/stephenasmith_gpt2.csv'>here</a>, and you can use the re-training template in this <a href='https://colab.research.google.com/drive/1RugXCYDcMvSACYNt9j0kB6zzqRKzAbBn' target='_blank'>Colab notebook</a> by Max Woolf.
         </p>
+        <h2>Appendix: additional technical details</h2>
+
+        <ol>
+            <li>
+                The BLEU score takes a very long time to compute because the reference group I am using is over 36,000 tweets; in this anaolgy, the candidate tweet is compared to over 36,000 'valid translations'. There was little evidence of overfitting, so I typically skip this step. As a result, some tweets may indeed be similar to existing tweets (this could also happen by chance as well).
+            </li>
+            <li>
+                The scoring model uses a Bidirectional LSTM. This achieved an estimated AUC (for both PR and ROC) of over 0.9, which is way way way more than enough for this particular use case. I used a pre-trained embedding layer via the <a href='https://nlp.stanford.edu/projects/glove/'>GloVe</a> Twitter vectors.
+            </li>
+            <li>
+                The predicted probabilities of the scoring model are left skewed. This actually makes sense because the GPT-2 model is trained on tweets with 100+ favs, while the scoring model is trained on all tweets. This data sharing is not ideal, but is reasonably inconsequential for this exercise.
+            </li>
+            <li>
+                I tried a handful of architectures before stumbling across GPT-2. A lot of the time, those simpler models would either overfit (generating tweets too similar to the training data), or generate too much nonsense. With additional tweaking, the performance of the simpler models would improve, but I gave up on that after finding GPT-2.
+            </li>
+        </ol>
         <br><br>
         <p style='font-size: 12px; text-align: center;'><i>Updated 2019-11-24</i></p>
 {% endblock %}
