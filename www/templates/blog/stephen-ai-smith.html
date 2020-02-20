@@ -116,7 +116,7 @@
 
         <ol>
             <li>
-                The BLEU score takes a very long time to compute because the reference group I am using is over 36,000 tweets; in this anaolgy, the candidate tweet is compared to over 36,000 'valid translations'. There was little evidence of overfitting, so I typically skip this step. As a result, some tweets may indeed be similar to existing tweets (this could also happen by chance as well).
+                The BLEU score takes a very long time to compute because the reference group I am using is over 36,000 tweets; in this analogy, the candidate tweet is compared to over 36,000 'valid translations'. There was little evidence of overfitting, so I typically skip this step. As a result, some tweets may indeed be similar to existing tweets (this could also happen by chance as well).
             </li>
             <li>
                 The scoring model uses a Bidirectional LSTM. This achieved an estimated AUC (for both PR and ROC) of over 0.9, which is way way way more than enough for this particular use case. I used a pre-trained embedding layer via the <a href='https://nlp.stanford.edu/projects/glove/'>GloVe</a> Twitter vectors.
